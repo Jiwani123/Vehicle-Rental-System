@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JourneyMATE — Premium Vehicle Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --accent-dark: #0891b2;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            scroll-behavior: smooth;
+        }
+
+        /* ========== KEYFRAME ANIMATIONS ========== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(37, 99, 235, 0.5),
+                0 0 10px rgba(37, 99, 235, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(37, 99, 235, 0.8),
+                0 0 30px rgba(37, 99, 235, 0.5),
+                0 0 40px rgba(37, 99, 235, 0.3);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-200deg) scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 900;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            animation: fadeInLeft 0.6s ease-out;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(360deg) scale(1.15);
+            animation: none;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:hover::after {
+            width: 70%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--gray-50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Hero Section */
+       .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(113, 112, 112, 0.101) 0%, rgb(0, 0, 0) 100%),
+            url('https://images.unsplash.com/photo-1630165356623-266076eaceb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            color: white;
+            text-align: center;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 0.8s ease-out, bounce 2s ease-in-out 1s infinite;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.7s both;
+        }
+
+        .hero-actions .btn:nth-child(1) {
+            animation: scaleIn 0.6s ease-out 1s both;
+        }
+
+        .hero-actions .btn:nth-child(2) {
+            animation: scaleIn 0.6s ease-out 1.2s both;
+        }
+
+        .hero-actions .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        .btn-hero-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-hero-outline {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-hero-outline:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 0 40px rgba(37, 99, 235, 0.15);
+            background: white;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotateY(360deg) scale(1.1);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 1.5rem;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Vehicle Showcase */
+        .vehicles {
+            padding: 8rem 2rem;
+            background: var(--gray-50);
+        }
+
+        .vehicles-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .vehicle-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(37, 99, 235, 0.2);
+        }
+
+        .vehicle-card:hover .vehicle-image {
+            transform: scale(1.1);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .vehicle-info {
+            padding: 1.5rem;
+        }
+
+        .vehicle-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .vehicle-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .vehicle-features {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .vehicles-loading,
+        .vehicles-empty,
+        .vehicles-error {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .vehicles-loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+            color: var(--primary);
+        }
+
+        .vehicles-empty i,
+        .vehicles-error i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            animation: modalSlideUp 0.3s ease;
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 2rem 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--gray-50);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+        }
+
+        .alert.show {
+            display: flex;
+            animation: alertSlideIn 0.3s ease;
+        }
+
+        @keyframes alertSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Switch Auth */
+        .switch-auth {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .switch-auth a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .switch-auth a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating particles background */
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            animation: floatBackground 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            perspective: 1000px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            opacity: 0;
+            animation: slideInUp3D 0.8s ease-out forwards;
+        }
+
+        /* Staggered animation delays */
+        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+        .testimonial-card:nth-child(4) { animation-delay: 0.4s; }
+        .testimonial-card:nth-child(5) { animation-delay: 0.5s; }
+        .testimonial-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* 3D slide in animation */
+        @keyframes slideInUp3D {
+            0% {
+                opacity: 0;
+                transform: translateY(80px) rotateX(-20deg) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .testimonial-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Glassmorphism overlay on hover */
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        .testimonial-card:hover::after {
+            opacity: 1;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.05);
+            box-shadow: 
+                0 30px 60px rgba(102, 126, 234, 0.3),
+                0 0 0 1px rgba(102, 126, 234, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        /* Shine effect */
+        .testimonial-card .shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+
+        .testimonial-card:hover .shine {
+            left: 100%;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .testimonial-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+        }
+
+        .testimonial-card:hover .testimonial-avatar {
+            transform: translateZ(20px) scale(1.1) rotate(360deg);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+        }
+
+        .testimonial-card:hover .testimonial-avatar::before {
+            opacity: 0.6;
+        }
+
+        /* Ripple effect on click */
+        .testimonial-card .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.4);
+            transform: scale(0);
+            animation: rippleEffect 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Floating badge animation */
+        .section-badge {
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .testimonial-info h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .testimonial-subject {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .testimonial-content {
+            color: var(--gray-700);
+            line-height: 1.7;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+            transform-style: preserve-3d;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover .testimonial-content {
+            transform: translateZ(10px);
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: -1rem;
+            left: -0.5rem;
+            font-family: Georgia, serif;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover .testimonial-content::before {
+            opacity: 0.3;
+            transform: translateZ(15px) scale(1.1);
+        }
+
+        .testimonial-date {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .testimonials-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .testimonials-empty i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .testimonials-loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .testimonials-loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section a {
+            color: var(--gray-400);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--gray-800);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--gray-500);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero-container {
+                padding: 0 1rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features,
+            .vehicles {
+                padding: 4rem 1rem;
+            }
+
+            .features-grid,
+            .vehicles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 1rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header -->
+<header class="header" id="header">
+    <div class="header-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <span class="logo-text">JourneyMATE</span>
+        </a>
+
+        <nav class="nav">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="/vehicle.html" class="nav-link">Vehicles</a>
+            <a href="#testimonials" class="nav-link">Reviews</a>
+            <a href="/about.html" class="nav-link">About</a>
+        </nav>
+
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn btn-outline" onclick="openModal('loginModal')">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </button>
+            <button class="btn btn-primary" onclick="openModal('registerModal')">
+                <i class="fas fa-user-plus"></i>
+                Register
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                Travel with Care
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <h1 class="hero-title">Drive Your Dreams</h1>
+            <p class="hero-description">
+                Experience the ultimate vehicle rental service with our premium fleet,
+                seamless booking system, and exceptional customer service.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-hero-primary" onclick="scrollToSection('vehicles')">
+                    <i class="fas fa-car-side"></i>
+                    Explore Vehicles
+                </button>
+                <button class="btn btn-hero-outline" onclick="openModal('loginModal')">
+                    <i class="fas fa-rocket"></i>
+                    Login
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+    <div class="features-container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-gem"></i>
+                Why Choose Us
+            </div>
+            <h2 class="section-title">Premium Features</h2>
+            <p class="section-description">
+                Discover what makes our vehicle rental service the best choice for your transportation needs.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <h3 class="feature-title">Fully Insured</h3>
+                <p class="feature-description">
+                    All our vehicles come with comprehensive insurance coverage, ensuring your peace of mind during every journey.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-description">
+                    Round-the-clock customer support and roadside assistance to help you whenever you need it.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3 class="feature-title">Best Prices</h3>
+                <p class="feature-description">
+                    Competitive pricing with transparent fees. No hidden costs, just fair and affordable rates.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vehicle Showcase -->
+<section class="vehicles" id="vehicles">
+    <div class="vehicles-container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-car"></i>
+                Our Fleet
+            </div>
+            <h2 class="section-title">Our Vehicles</h2>
+            <p class="section-description">
+                Choose from our extensive collection of well-maintained, premium vehicles.
+            </p>
+        </div>
+
+        <div id="vehiclesContainer">
+            <div class="vehicles-loading">
+                <i class="fas fa-spinner"></i>
+                <p>Loading vehicles...</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="#" onclick="openModal('loginModal')" class="btn btn-primary">
+                <i class="fas fa-eye"></i>
+                View All Vehicles
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials" id="testimonials">
+    <div class="testimonials-container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-heart"></i>
+                Customer Reviews
+            </div>
+            <h2 class="section-title">What Our Customers Say</h2>
+            <p class="section-description">
+                Real feedback from our valued customers who have experienced our premium vehicle rental services.
+            </p>
+        </div>
+
+        <div id="testimonialsContainer">
+            <div class="testimonials-loading">
+                <i class="fas fa-spinner"></i>
+                <p>Loading testimonials...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>JourneyMATE</h4>
+            <p>Your trusted partner for premium vehicle rentals. Experience luxury and reliability with every journey.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a >Browse Vehicles</a>
+            <a href="/about.html">About Us</a>
+            <a href="#" onclick="openModal('loginModal')">Login</a>
+            <a href="#" onclick="openModal('registerModal')">Register</a>
+        </div>
+        <div class="footer-section">
+            <h4>Services</h4>
+            <a href="#" onclick="openModal('loginModal')">My Bookings</a>
+            <a href="#" onclick="openModal('loginModal')">Payments</a>
+            <a href="#" onclick="openModal('loginModal')">Feedback</a>
+            <a >Support</a>
+        </div>
+    </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 JourneyMATE. All rights reserved..</p>
+    </div>
+</footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">Welcome Back</h2>
+            <p class="modal-subtitle">Sign in to your account</p>
+        </div>
+
+        <div class="modal-body">
+            <div id="loginAlert" class="alert"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="loginUsername" class="form-input"
+                           placeholder="Enter your username" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="loginPassword" class="form-input"
+                           placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary form-submit" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign In</span>
+                </button>
+            </form>
+
+            <div class="switch-auth">
+                <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Create one here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="modal-close" onclick="closeModal('registerModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">Join JourneyMATE</h2>
+            <p class="modal-subtitle">Create your account today</p>
+        </div>
+
+        <div class="modal-body">
+            <div id="registerAlert" class="alert"></div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> First Name
+                    </label>
+                    <input type="text" id="registerFirstName" class="form-input"
+                           placeholder="Enter your first name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> Last Name
+                    </label>
+                    <input type="text" id="registerLastName" class="form-input"
+                           placeholder="Enter your last name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-at"></i> Username
+                    </label>
+                    <input type="text" id="registerUsername" class="form-input"
+                           placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="registerEmail" class="form-input"
+                           placeholder="Enter your email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="registerPassword" class="form-input"
+                           placeholder="Create a secure password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary form-submit" id="registerBtn">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create Account</span>
+                </button>
+            </form>
+
+            <div class="switch-auth">
+                <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Check if user is already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+        const username = localStorage.getItem('username');
+        const role = localStorage.getItem('role');
+
+        if (username && role) {
+            updateHeaderForLoggedInUser(username, role);
+        }
+    });
+
+    // Update header for logged in users
+
+
+    // Navigate to appropriate dashboard
+    function goToDashboard(role) {
+        switch(role) {
+            case 'vehicle-admin':
+                window.location.href = '/admin/vehicle/vehicle-admin-home.html';
+                break;
+            case 'super-admin':
+                window.location.href = '/admin/super/super-admin-dashboard.html';
+                break;
+            case 'admin':
+                window.location.href = '/admin-home.html';
+                break;
+            default:
+                window.location.href = '/user-home.html';
+                break;
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        // showAlert('loginAlert', 'Successfully logged out!', 'success');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    }
+
+    // Smooth scroll to section
+    function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+
+    // Modal functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        clearAllAlerts();
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+
+        // Reset form
+        const form = modal.querySelector('form');
+        if (form) form.reset();
+        clearAllAlerts();
+    }
+
+    function switchModal(fromModal, toModal) {
+        closeModal(fromModal);
+        setTimeout(() => openModal(toModal), 200);
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            closeModal(e.target.id);
+        }
+    });
+
+    // Clear all alerts
+    function clearAllAlerts() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.remove('show');
+            alert.innerHTML = '';
+        });
+    }
+
+    // Show alert function
+    function showAlert(alertId, message, type) {
+        const alert = document.getElementById(alertId);
+        const iconMap = {
+            success: 'check-circle',
+            error: 'exclamation-triangle',
+            info: 'info-circle'
+        };
+
+        alert.innerHTML = `
+                <i class="fas fa-${iconMap[type]}"></i>
+                ${message}
+            `;
+        alert.className = `alert alert-${type} show`;
+    }
+
+    // Login form handler
+    async function handleLogin(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const loginBtn = document.getElementById('loginBtn');
+
+        // Validation
+        if (!username || !password) {
+            showAlert('loginAlert', 'Please fill in all fields', 'error');
+            return;
+        }
+
+        // Disable button and show loading
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<div class="loading"></div> Signing in...';
+
+        try {
+            showAlert('loginAlert', 'Authenticating your credentials...', 'info');
+
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            console.log('Login response status:', response.status);
+
+            // Handle response based on status
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login response data:', data);
+
+                if (data.status === 'success') {
+                    showAlert('loginAlert', 'Login successful! Loading to dashboard...', 'success');
+
+                    // Store user data
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('role', data.role);
+
+                    // Redirect based on role with delay for UX
+                    setTimeout(() => {
+                        switch(data.role) {
+                            case 'vehicle-admin':
+                                window.location.href = '/admin/vehicle/vehicle-admin-home.html';
+                                break;
+                            case 'super-admin':
+                                window.location.href = '/admin/super/super-admin-dashboard.html';
+                                break;
+                            case 'admin':
+                                window.location.href = '/admin-home.html';
+                                break;
+                            case 'USER':
+                            case 'user':
+                            default:
+                                window.location.href = '/user-home.html';
+                                break;
+                        }
+                    }, 1500);
+                } else {
+                    showAlert('loginAlert', data.message || 'Login failed. Please check your credentials.', 'error');
+                }
+            } else if (response.status === 401) {
+                // Handle unauthorized response
+                try {
+                    const errorData = await response.json();
+                    showAlert('loginAlert', errorData.message || 'Invalid username or password. Please try again.', 'error');
+                } catch (e) {
+                    showAlert('loginAlert', 'Invalid username or password. Please try again.', 'error');
+                }
+            } else {
+                // Handle other errors
+                showAlert('loginAlert', `Server error (${response.status}). Please try again later.`, 'error');
+            }
+
+        } catch (error) {
+            console.error('Login error:', error);
+            showAlert('loginAlert', 'Connection error. Please check your internet connection and try again.', 'error');
+        } finally {
+            // Re-enable button
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = `
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign In</span>
+                `;
+        }
+    }
+
+    // Register form handler
+    async function handleRegister(event) {
+        event.preventDefault();
+
+        const formData = {
+            firstName: document.getElementById('registerFirstName').value.trim(),
+            lastName: document.getElementById('registerLastName').value.trim(),
+            username: document.getElementById('registerUsername').value.trim(),
+            email: document.getElementById('registerEmail').value.trim(),
+            password: document.getElementById('registerPassword').value,
+            role: 'USER'
+        };
+
+        const registerBtn = document.getElementById('registerBtn');
+
+        // Validation
+        if (!formData.firstName || !formData.lastName || !formData.username ||
+            !formData.email || !formData.password) {
+            showAlert('registerAlert', 'Please fill in all fields', 'error');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            showAlert('registerAlert', 'Please enter a valid email address', 'error');
+            return;
+        }
+
+        // Password validation
+        if (formData.password.length < 6) {
+            showAlert('registerAlert', 'Password must be at least 6 characters long', 'error');
+            return;
+        }
+
+        // Disable button and show loading
+        registerBtn.disabled = true;
+        registerBtn.innerHTML = '<div class="loading"></div> Creating account...';
+
+        try {
+            showAlert('registerAlert', 'Creating your account...', 'info');
+
+            const response = await fetch('/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                showAlert('registerAlert', 'Account created successfully! Please sign in to continue.', 'success');
+
+                // Clear form
+                document.getElementById('registerForm').reset();
+
+                // Switch to login form with pre-filled username
+                setTimeout(() => {
+                    switchModal('registerModal', 'loginModal');
+                    document.getElementById('loginUsername').value = formData.username;
+                    document.getElementById('loginPassword').focus();
+                }, 2000);
+
+            } else {
+                const errorText = await response.text();
+                if (errorText.includes('already exists')) {
+                    showAlert('registerAlert', 'Username already exists. Please choose a different one.', 'error');
+                } else {
+                    showAlert('registerAlert', 'Account created successfully! Please sign in to continue.', 'success');
+                    document.getElementById('registerForm').reset();
+                }
+            }
+
+        } catch (error) {
+            console.error('Registration error:', error);
+            showAlert('registerAlert', 'Connection error. Please check your internet and try again.', 'error');
+        } finally {
+            // Re-enable button
+            registerBtn.disabled = false;
+            registerBtn.innerHTML = `
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create Account</span>
+                `;
+        }
+    }
+
+    // Load testimonials and vehicles on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadVehicles();
+        loadTestimonials();
+    });
+
+    // Load vehicles from API
+    async function loadVehicles() {
+        try {
+            const response = await fetch('/api/vehicles?status=Available');
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch vehicles');
+            }
+
+            const vehicles = await response.json();
+            displayVehicles(vehicles);
+
+        } catch (error) {
+            console.error('Error loading vehicles:', error);
+            displayVehiclesError();
+        }
+    }
+
+    // Display vehicles in the grid (show first 6)
+    function displayVehicles(vehicles) {
+        const container = document.getElementById('vehiclesContainer');
+
+        if (!vehicles || vehicles.length === 0) {
+            container.innerHTML = `
+                <div class="vehicles-empty">
+                    <i class="fas fa-car"></i>
+                    <h3>No vehicles available</h3>
+                    <p>Check back soon for our premium vehicle collection!</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Show first 6 available vehicles
+        const displayVehicles = vehicles.slice(0, 6);
+
+        const vehiclesHTML = `
+            <div class="vehicles-grid">
+                ${displayVehicles.map(vehicle => `
+                    <div class="vehicle-card">
+                        <img src="${vehicle.imageUrl || 'https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=600&auto=format&fit=crop'}" 
+                             alt="${escapeHtml(vehicle.model || 'Vehicle')}" 
+                             class="vehicle-image"
+                             onerror="this.src='https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=600&auto=format&fit=crop'">
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        container.innerHTML = vehiclesHTML;
+    }
+
+    // Display error state for vehicles
+    function displayVehiclesError() {
+        const container = document.getElementById('vehiclesContainer');
+        container.innerHTML = `
+            <div class="vehicles-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Unable to load vehicles</h3>
+                <p>Please try refreshing the page</p>
+            </div>
+        `;
+    }
+
+    // Load approved testimonials from API
+    async function loadTestimonials() {
+        try {
+            const response = await fetch('/api/feedbacks');
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch testimonials');
+            }
+
+            const testimonials = await response.json();
+            displayTestimonials(testimonials);
+
+        } catch (error) {
+            console.error('Error loading testimonials:', error);
+            displayTestimonialsError();
+        }
+    }
+
+    // Display testimonials in the grid
+    function displayTestimonials(testimonials) {
+        const container = document.getElementById('testimonialsContainer');
+
+        if (!testimonials || testimonials.length === 0) {
+            container.innerHTML = `
+                    <div class="testimonials-empty">
+                        <i class="fas fa-comments"></i>
+                        <h3>No testimonials yet</h3>
+                        <p>Be the first to share your experience with us!</p>
+                    </div>
+                `;
+            return;
+        }
+
+        // Show latest 6 testimonials
+        const recentTestimonials = testimonials.slice(0, 6);
+
+        const testimonialsHTML = `
+                <div class="testimonials-grid">
+                    ${recentTestimonials.map(testimonial => `
+                        <div class="testimonial-card">
+                            <div class="shine"></div>
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    ${getInitials(testimonial.userName || 'Anonymous')}
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>${escapeHtml(testimonial.userName || 'Anonymous')}</h4>
+                                    <p class="testimonial-subject">${escapeHtml(testimonial.subject || 'Customer Feedback')}</p>
+                                </div>
+                            </div>
+                            <div class="testimonial-content">
+                                ${escapeHtml(testimonial.message)}
+                            </div>
+                            <div class="testimonial-date">
+                                <i class="fas fa-calendar"></i>
+                                ${formatTestimonialDate(testimonial.createdAt)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+        container.innerHTML = testimonialsHTML;
+        
+        // Initialize 3D effects after rendering
+        setTimeout(() => initialize3DEffects(), 100);
+    }
+
+    // Display error state for testimonials
+    function displayTestimonialsError() {
+        const container = document.getElementById('testimonialsContainer');
+        container.innerHTML = `
+                <div class="testimonials-empty">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Unable to load testimonials</h3>
+                    <p>Please try refreshing the page</p>
+                </div>
+            `;
+    }
+
+    // Get initials from name
+    function getInitials(name) {
+        if (!name) return 'A';
+        return name.split(' ')
+            .map(word => word.charAt(0).toUpperCase())
+            .slice(0, 2)
+            .join('');
+    }
+
+    // Format date for testimonials
+    function formatTestimonialDate(dateString) {
+        if (!dateString) return 'Recent';
+
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) return 'Yesterday';
+        if (diffDays <= 7) return `${diffDays} days ago`;
+        if (diffDays <= 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    // Initialize 3D mouse tracking effects for testimonial cards
+    function initialize3DEffects() {
+        const cards = document.querySelectorAll('.testimonial-card');
+        
+        cards.forEach(card => {
+            // 3D rotation on mouse move
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                this.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg) 
+                    translateY(-15px) 
+                    scale(1.05)
+                `;
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+
+            // Ripple effect on click
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+
+            // Add parallax effect to avatar
+            const avatar = card.querySelector('.testimonial-avatar');
+            if (avatar) {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const moveX = (x - centerX) / 20;
+                    const moveY = (y - centerY) / 20;
+                    
+                    avatar.style.transform = `
+                        translateZ(20px) 
+                        translateX(${moveX}px) 
+                        translateY(${moveY}px) 
+                        scale(1.1) 
+                        rotate(360deg)
+                    `;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    avatar.style.transform = '';
+                });
+            }
+        });
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const activeModal = document.querySelector('.modal.active');
+            if (activeModal) {
+                closeModal(activeModal.id);
+            }
+        }
+    });
+</script>
+</body>
+</html>

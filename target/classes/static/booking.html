@@ -1,0 +1,1167 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Vehicle - JourneyMATE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: var(--gray-100);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--gray-600);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Booking Content */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .booking-form-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-error {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* Booking Summary */
+        .booking-summary {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .vehicle-info {
+            border: 1px solid var(--gray-200);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .vehicle-name {
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .vehicle-type {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--primary);
+        }
+
+        .summary-label {
+            color: var(--gray-600);
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.125rem;
+            color: var(--gray-600);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .booking-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="/user-home.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="logo-text">JourneyMATE</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="/user-home.html" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <a href="/vehicle.html" class="nav-link">
+                    <i class="fas fa-car-side"></i> Browse Vehicles
+                </a>
+            </nav>
+            
+            <button class="btn btn-outline" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="/user-home.html">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Book Vehicle</span>
+        </nav>
+
+        <!-- Booking Container -->
+        <div class="booking-container">
+            <!-- Booking Form -->
+            <div class="booking-form-section">
+                <h1 class="form-title">Book Your Vehicle</h1>
+                <p class="form-subtitle">Fill in your rental details and confirm your booking</p>
+
+                <!-- Alert Messages -->
+                <div id="alertContainer"></div>
+
+                <!-- Booking Form -->
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="pickupDate">
+                                <i class="fas fa-calendar-alt"></i> Pickup Date
+                            </label>
+                            <input type="date" class="form-input" id="pickupDate" name="pickupDate" required>
+                            <div class="form-error" id="pickupDateError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="returnDate">
+                                <i class="fas fa-calendar-check"></i> Return Date
+                            </label>
+                            <input type="date" class="form-input" id="returnDate" name="returnDate" required>
+                            <div class="form-error" id="returnDateError"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="pickupLocation">
+                            <i class="fas fa-map-marker-alt"></i> Pickup Location
+                        </label>
+                        <select class="form-select" id="pickupLocation" name="pickupLocation" required>
+                            <option value="">Select pickup location</option>
+                            <option value="Katunayaka Airport">Katunayaka Airport</option>
+                            <option value="Colombo Airport">Colombo Airport </option>
+                            <option value="Maththala Airport">Maththala Airport </option>
+                            <option value="One Galle Face">One Galle Face</option>
+                            <option value="Galle Face">Galle Face</option>
+                            <option value="Cinnamon Grand hotel Ground Park">Cinnamon Grand hotel Ground Park </option>
+                            <option value="Havelock City">Havelock City</option>
+                            <option value="Colombo Harbour">Colombo Harbour</option>
+                        </select>
+                        <div class="form-error" id="pickupLocationError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="returnLocation">
+                            <i class="fas fa-map-marker"></i> Return Location
+                        </label>
+                        <select class="form-select" id="returnLocation" name="returnLocation" required>
+                           <option value="">Select pickup location</option>
+                            <option value="Katunayaka Airport">Katunayaka Airport</option>
+                            <option value="Colombo Airport">Colombo Airport </option>
+                            <option value="Maththala Airport">Maththala Airport </option>
+                            <option value="One Galle Face">One Galle Face</option>
+                            <option value="Galle Face">Galle Face</option>
+                            <option value="Cinnamon Grand hotel Ground Park">Cinnamon Grand hotel Ground Park </option>
+                            <option value="Havelock City">Havelock City</option>
+                            <option value="Colombo Harbour">Colombo Harbour</option>
+                        </select>
+                        <div class="form-error" id="returnLocationError"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="contactNumber">
+                                <i class="fas fa-phone"></i> Contact Number
+                            </label>
+                            <input type="tel" class="form-input" id="contactNumber" name="contactNumber" 
+                                   placeholder="Enter your phone number" required>
+                            <div class="form-error" id="contactNumberError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="email">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" class="form-input" id="email" name="email" 
+                                   placeholder="Enter your email" required>
+                            <div class="form-error" id="emailError"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="specialRequests">
+                            <i class="fas fa-comment"></i> Special Requests (Optional)
+                        </label>
+                        <textarea class="form-textarea" id="specialRequests" name="specialRequests" 
+                                  placeholder="Any special requirements or additional requests..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="cancelBooking()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="fas fa-credit-card"></i> Confirm Booking
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="booking-summary">
+                <h2 class="summary-title">Booking Summary</h2>
+                
+                <div id="vehicleSummary">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Loading vehicle...
+                    </div>
+                </div>
+
+                <div id="costSummary" style="display: none;">
+                    <div class="summary-row">
+                        <span class="summary-label">Daily Rate</span>
+                        <span class="summary-value" id="dailyRate">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Number of Days</span>
+                        <span class="summary-value" id="totalDays">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal</span>
+                        <span class="summary-value" id="subtotal">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Security Deposit</span>
+                        <span class="summary-value" id="securityDeposit">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Tax (10%)</span>
+                        <span class="summary-value" id="tax">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Total Amount</span>
+                        <span class="summary-value" id="totalAmount">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let vehicleData = null;
+        let currentUser = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = localStorage.getItem('username');
+            if (!currentUser) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            loadVehicleInfo();
+            setupFormValidation();
+            setMinDates();
+        });
+
+        // Load vehicle information
+        async function loadVehicleInfo() {
+            try {
+                const vehicleId = localStorage.getItem('bookingVehicleId');
+                
+                if (!vehicleId) {
+                    showAlert('No vehicle selected for booking', 'error');
+                    setTimeout(() => window.location.href = '/user-home.html', 2000);
+                    return;
+                }
+
+                const response = await fetch(`/api/vehicles/${vehicleId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Vehicle not found');
+                }
+
+                vehicleData = await response.json();
+                displayVehicleSummary(vehicleData);
+
+            } catch (error) {
+                console.error('Error loading vehicle:', error);
+                showAlert('Failed to load vehicle information', 'error');
+            }
+        }
+
+        // Display vehicle in summary
+        function displayVehicleSummary(vehicle) {
+            const summaryContainer = document.getElementById('vehicleSummary');
+            
+            if (!summaryContainer) {
+                console.error('Vehicle summary container not found');
+                return;
+            }
+            
+            summaryContainer.innerHTML = `
+                <div class="vehicle-info">
+                    <img src="${vehicle.imageUrl || 'https://images.unsplash.com/photo-1549924231-f129b911e442?q=80&w=400&auto=format&fit=crop'}" 
+                         alt="${vehicle.brandName} ${vehicle.modelName}" class="vehicle-image">
+                    <div class="vehicle-name">${vehicle.brandName} ${vehicle.modelName}</div>
+                    <div class="vehicle-type">${vehicle.vehicleType}</div>
+                </div>
+            `;
+
+            // Update cost summary
+            const dailyRateElement = document.getElementById('dailyRate');
+            const securityDepositElement = document.getElementById('securityDeposit');
+            const costSummaryElement = document.getElementById('costSummary');
+            
+            if (dailyRateElement) {
+                dailyRateElement.textContent = `$${vehicle.rentalPricePerDay}`;
+            }
+            if (securityDepositElement) {
+                securityDepositElement.textContent = `$${Math.max(200, vehicle.rentalPricePerDay * 2)}`;
+            }
+            if (costSummaryElement) {
+                costSummaryElement.style.display = 'block';
+            }
+
+            // Calculate initial cost (will be updated when dates change)
+            calculateCost();
+        }
+
+        // Set minimum dates (today for pickup, tomorrow for return)
+        function setMinDates() {
+            const today = new Date().toISOString().split('T')[0];
+            const tomorrow = new Date(Date.now() + 24*60*60*1000).toISOString().split('T')[0];
+            
+            const pickupDateInput = document.getElementById('pickupDate');
+            const returnDateInput = document.getElementById('returnDate');
+            
+            if (pickupDateInput) {
+                pickupDateInput.min = today;
+            }
+            if (returnDateInput) {
+                returnDateInput.min = tomorrow;
+            }
+        }
+
+        // Setup form validation and event listeners
+        function setupFormValidation() {
+            const form = document.getElementById('bookingForm');
+            const pickupDate = document.getElementById('pickupDate');
+            const returnDate = document.getElementById('returnDate');
+            const emailInput = document.getElementById('email');
+
+            // Add null checks before adding event listeners
+            if (pickupDate) {
+                pickupDate.addEventListener('change', function() {
+                    const pickup = new Date(this.value);
+                    const nextDay = new Date(pickup.getTime() + 24*60*60*1000);
+                    
+                    if (returnDate) {
+                        returnDate.min = nextDay.toISOString().split('T')[0];
+                        
+                        if (returnDate.value && new Date(returnDate.value) <= pickup) {
+                            returnDate.value = nextDay.toISOString().split('T')[0];
+                        }
+                    }
+                    
+                    calculateCost();
+                });
+            }
+
+            if (returnDate) {
+                returnDate.addEventListener('change', calculateCost);
+            }
+
+            // Form submission
+            if (form) {
+                form.addEventListener('submit', handleBookingSubmission);
+            }
+
+            // Auto-fill email with current user (if available)
+            if (emailInput && currentUser) {
+                emailInput.value = currentUser + '@example.com';
+            }
+        }
+
+        // Calculate rental cost
+        function calculateCost() {
+            if (!vehicleData) return;
+
+            const pickupDateElement = document.getElementById('pickupDate');
+            const returnDateElement = document.getElementById('returnDate');
+            const totalDaysElement = document.getElementById('totalDays');
+            const subtotalElement = document.getElementById('subtotal');
+            const taxElement = document.getElementById('tax');
+            const totalAmountElement = document.getElementById('totalAmount');
+            
+            const pickupDate = pickupDateElement ? pickupDateElement.value : '';
+            const returnDate = returnDateElement ? returnDateElement.value : '';
+
+            if (!pickupDate || !returnDate) {
+                if (totalDaysElement) totalDaysElement.textContent = '0';
+                if (subtotalElement) subtotalElement.textContent = '$0';
+                if (taxElement) taxElement.textContent = '$0';
+                if (totalAmountElement) totalAmountElement.textContent = '$0';
+                return;
+            }
+
+            const pickup = new Date(pickupDate);
+            const returnD = new Date(returnDate);
+            const days = Math.ceil((returnD - pickup) / (1000 * 60 * 60 * 24));
+
+            const dailyRate = vehicleData.rentalPricePerDay;
+            const subtotal = dailyRate * days;
+            const securityDeposit = Math.max(200, dailyRate * 2);
+            const tax = subtotal * 0.1;
+            const total = subtotal + securityDeposit + tax;
+
+            if (totalDaysElement) totalDaysElement.textContent = days.toString();
+            if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
+            if (totalAmountElement) totalAmountElement.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Handle booking form submission
+        async function handleBookingSubmission(e) {
+            e.preventDefault();
+            
+            console.log('Booking submission started...');
+            
+            if (!validateForm()) {
+                console.error('Form validation failed');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<div class="spinner"></div> Processing...';
+            }
+
+            try {
+                const formData = new FormData(e.target);
+                const bookingData = {
+                    username: currentUser,
+                    vehicleId: vehicleData.id,
+                    pickupDate: formData.get('pickupDate'),
+                    returnDate: formData.get('returnDate'),
+                    pickupLocation: formData.get('pickupLocation'),
+                    returnLocation: formData.get('returnLocation'),
+                    contactNumber: formData.get('contactNumber'),
+                    email: formData.get('email'),
+                    specialRequests: formData.get('specialRequests') || null,
+                    status: 'PENDING',
+                    totalAmount: calculateTotalAmount()
+                };
+
+                console.log('Booking data:', bookingData);
+
+                const response = await fetch('/api/bookings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bookingData)
+                });
+
+                console.log('API Response Status:', response.status);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Booking failed:', errorText);
+                    throw new Error(`Booking failed: ${response.status} - ${errorText}`);
+                }
+
+                const result = await response.json();
+                console.log('Booking successful:', result);
+                
+                showAlert('Booking submitted successfully! Please wait for admin approval before proceeding to payment.', 'success');
+                
+                // Store booking ID for future reference
+                localStorage.setItem('bookingId', result.id);
+                
+                setTimeout(() => {
+                    window.location.href = '/user-bookings.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Booking error:', error);
+                showAlert(`Failed to submit booking: ${error.message}`, 'error');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-credit-card"></i> Confirm Booking';
+                }
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            clearErrors();
+            let isValid = true;
+
+            const pickupDateElement = document.getElementById('pickupDate');
+            const returnDateElement = document.getElementById('returnDate');
+            const pickupLocationElement = document.getElementById('pickupLocation');
+            const returnLocationElement = document.getElementById('returnLocation');
+            const contactNumberElement = document.getElementById('contactNumber');
+            const emailElement = document.getElementById('email');
+            
+            const pickupDate = pickupDateElement ? pickupDateElement.value : '';
+            const returnDate = returnDateElement ? returnDateElement.value : '';
+            const pickupLocation = pickupLocationElement ? pickupLocationElement.value : '';
+            const returnLocation = returnLocationElement ? returnLocationElement.value : '';
+            const contactNumber = contactNumberElement ? contactNumberElement.value : '';
+            const email = emailElement ? emailElement.value : '';
+
+            // Date validation
+            if (!pickupDate) {
+                showFieldError('pickupDateError', 'Pickup date is required');
+                isValid = false;
+            }
+
+            if (!returnDate) {
+                showFieldError('returnDateError', 'Return date is required');
+                isValid = false;
+            }
+
+            if (pickupDate && returnDate && new Date(returnDate) <= new Date(pickupDate)) {
+                showFieldError('returnDateError', 'Return date must be after pickup date');
+                isValid = false;
+            }
+
+            // Location validation
+            if (!pickupLocation) {
+                showFieldError('pickupLocationError', 'Pickup location is required');
+                isValid = false;
+            }
+
+            if (!returnLocation) {
+                showFieldError('returnLocationError', 'Return location is required');
+                isValid = false;
+            }
+
+            // Contact validation
+            if (!contactNumber) {
+                showFieldError('contactNumberError', 'Contact number is required');
+                isValid = false;
+            } else if (!/^\+?[\d\s\-\(\)]{10,20}$/.test(contactNumber)) {
+                showFieldError('contactNumberError', 'Please enter a valid phone number (10-20 digits)');
+                isValid = false;
+            }
+
+            // Email validation
+            if (!email) {
+                showFieldError('emailError', 'Email is required');
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showFieldError('emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Calculate total amount
+        function calculateTotalAmount() {
+            const pickupDateElement = document.getElementById('pickupDate');
+            const returnDateElement = document.getElementById('returnDate');
+            
+            const pickupDate = pickupDateElement ? pickupDateElement.value : '';
+            const returnDate = returnDateElement ? returnDateElement.value : '';
+            
+            if (!pickupDate || !returnDate || !vehicleData) return 0;
+
+            const days = Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24));
+            const subtotal = vehicleData.rentalPricePerDay * days;
+            const securityDeposit = Math.max(200, vehicleData.rentalPricePerDay * 2);
+            const tax = subtotal * 0.1;
+            
+            return subtotal + securityDeposit + tax;
+        }
+
+        // Show field error
+        function showFieldError(fieldId, message) {
+            const errorElement = document.getElementById(fieldId);
+            if (errorElement) {
+                errorElement.textContent = message;
+            } else {
+                console.warn(`Error element with ID '${fieldId}' not found`);
+            }
+        }
+
+        // Clear all errors
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.form-error');
+            errorElements.forEach(element => element.textContent = '');
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+            
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    <i class="${icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Cancel booking
+        function cancelBooking() {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                localStorage.removeItem('bookingVehicleId');
+                window.location.href = '/user-home.html';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('username');
+            localStorage.removeItem('role');
+            localStorage.removeItem('bookingVehicleId');
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>
+
+<script>
+    // Config
+    const API_BASE = "/api/bookings"; // adjust if backend is on different origin
+    const LOGIN_PAGE = "login.html";  // adjust path as needed
+
+    // Example: auth token handling (optional)
+    function getAuthHeaders() {
+        const token = localStorage.getItem("jwtToken");
+        return token ? { "Authorization": "Bearer " + token } : {};
+    }
+
+    // Utility for creating a booking card
+    function bookingCard(b) {
+        const card = document.createElement("article");
+        card.className = "booking-card";
+        card.setAttribute("data-id", b.id);
+
+        card.innerHTML = `
+        <div class="booking-row">
+          <div>
+            <div class="label">Booking ID</div>
+            <div class="value">#${b.id ?? "-"}</div>
+          </div>
+          <div>
+            <div class="label">Vehicle</div>
+            <div class="value">${b.vehicleId ?? "-"}</div>
+          </div>
+        </div>
+
+        <div class="booking-row">
+          <div>
+            <div class="label">Pickup Date</div>
+            <div class="value">${b.pickupDate ?? "-"}</div>
+          </div>
+          <div>
+            <div class="label">Return Date</div>
+            <div class="value">${b.returnDate ?? "-"}</div>
+          </div>
+        </div>
+
+        <div class="booking-row">
+          <div>
+            <div class="label">Pickup Location</div>
+            <div class="value">${b.pickupLocation ?? "-"}</div>
+          </div>
+          <div>
+            <div class="label">Status</div>
+            <div class="value">${b.status ?? "ACTIVE"}</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-update" data-action="update">Update Booking</button>
+          <button class="btn btn-cancel" data-action="cancel">Cancel Booking</button>
+        </div>
+      `;
+        return card;
+    }
+
+    // Render list
+    function renderBookings(list) {
+        const container = document.getElementById("bookingsList");
+        container.innerHTML = "";
+        if (!list || list.length === 0) {
+            const empty = document.createElement("div");
+            empty.textContent = "No bookings found.";
+            container.appendChild(empty);
+            return;
+        }
+        list.forEach(b => container.appendChild(bookingCard(b)));
+    }
+
+    // Load bookings from API
+    async function loadBookings() {
+        try {
+            const res = await fetch(API_BASE, {
+                headers: {
+                    "Content-Type": "application/json",
+                    ...getAuthHeaders()
+                }
+            });
+            if (!res.ok) {
+                throw new Error("Failed to load bookings: " + res.status);
+            }
+            const data = await res.json();
+            renderBookings(data);
+        } catch (e) {
+            console.error(e);
+            alert("Could not load bookings.");
+        }
+    }
+
+    // Cancel booking
+    async function cancelBooking(id) {
+        if (!confirm("Cancel this booking?")) return;
+        try {
+            const res = await fetch(`${API_BASE}/${id}/cancel`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...getAuthHeaders()
+                }
+            });
+            if (!res.ok) throw new Error("Cancel failed: " + res.status);
+            await loadBookings();
+        } catch (e) {
+            console.error(e);
+            alert("Cancellation failed.");
+        }
+    }
+
+    // Update booking (simple prompt-based example; replace with modal/form as needed)
+    async function updateBooking(id) {
+        const pickupDate = prompt("Enter new pickup date (YYYY-MM-DD):");
+        if (!pickupDate) return;
+        const returnDate = prompt("Enter new return date (YYYY-MM-DD):");
+        if (!returnDate) return;
+        const pickupLocation = prompt("Enter new pickup location:");
+        if (!pickupLocation) return;
+
+        const payload = { pickupDate, returnDate, pickupLocation };
+        try {
+            const res = await fetch(`${API_BASE}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...getAuthHeaders()
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error("Update failed: " + res.status);
+            await loadBookings();
+        } catch (e) {
+            console.error(e);
+            alert("Update failed.");
+        }
+    }
+
+    // Logout
+    function logout() {
+        localStorage.removeItem("jwtToken");
+        window.location.href = LOGIN_PAGE;
+    }
+
+    // Wire events
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+
+        if (btn.id === "logoutBtn") {
+            logout();
+            return;
+        }
+        if (btn.id === "refreshBtn") {
+            loadBookings();
+            return;
+        }
+        // Card actions
+        const action = btn.getAttribute("data-action");
+        if (!action) return;
+        const card = btn.closest(".booking-card");
+        const id = card?.getAttribute("data-id");
+        if (!id) return;
+
+        if (action === "cancel") cancelBooking(id);
+        if (action === "update") updateBooking(id);
+    });
+
+    // Initial load
+    window.addEventListener("DOMContentLoaded", () => {
+        loadBookings();
+    });
+</script>
+</body>
+</html>

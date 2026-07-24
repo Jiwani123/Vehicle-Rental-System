@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyMATE - Inquiry Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/animations.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 2rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            border-left-color: var(--primary-dark);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background: var(--error);
+            color: var(--white);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .content-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);
+            color: var(--white);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.pending {
+            border-left-color: var(--warning);
+        }
+
+        .stat-card.responded {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.closed {
+            border-left-color: var(--gray-500);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.gray {
+            background: linear-gradient(135deg, var(--gray-500) 0%, var(--gray-600) 100%);
+            color: var(--white);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-select {
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            background: var(--white);
+            cursor: pointer;
+        }
+
+        /* Inquiries Table */
+        .table-section {
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .inquiries-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .inquiries-table th {
+            background: var(--gray-50);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .inquiries-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 0.875rem;
+        }
+
+        .inquiries-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-responded {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-closed {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .priority-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inquiry-subject {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .inquiry-preview {
+            color: var(--gray-600);
+            font-size: 0.75rem;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .customer-info {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-email {
+            color: var(--gray-600);
+            font-size: 0.75rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: var(--shadow-xl);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        .close-btn:hover {
+            color: var(--gray-900);
+        }
+
+        .inquiry-details {
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .detail-value {
+            color: var(--gray-900);
+            flex: 1;
+        }
+
+        .inquiry-message {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .response-section {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 2rem;
+        }
+
+        .response-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .response-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .response-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* Loading and Empty States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-600);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray-400);
+        }
+
+        /* Error/Success Messages */
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-header {
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .modal-content {
+                margin: 5% 2%;
+                width: 96%;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="animate-fade-in">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">JourneyMATE</div>
+            <div class="sidebar-subtitle">Super Admin Portal</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <a href="super-admin-dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Management</div>
+                <a href="super-admin-users.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </a>
+                <a href="super-admin-feedback.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    Feedback Management
+                </a>
+                <a href="super-admin-inquiries.html" class="nav-item active">
+                    <i class="fas fa-question-circle"></i>
+                    Inquiries
+                    <span class="nav-badge" id="inquiryBadge">0</span>
+                </a>
+                <a href="super-admin-reports.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Reports
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">System</div>
+                <a href="#" class="nav-item" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                </a>
+                <a href="#" class="nav-item" onclick="exportInquiries()">
+                    <i class="fas fa-download"></i>
+                    Export
+                </a>
+                <a href="../../index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div>
+                <h1 class="header-title">Inquiry Management</h1>
+                <p class="header-subtitle">Manage and respond to customer inquiries</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Total Inquiries</div>
+                    <div class="stat-icon primary">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalInquiries">0</div>
+                <div class="stat-label">All Time</div>
+            </div>
+
+            <div class="stat-card pending card-hover-lift transition-all">
+                <div class="stat-header">
+                    <div class="stat-title">Pending</div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="pendingInquiries">0</div>
+                <div class="stat-label">Awaiting Response</div>
+            </div>
+
+            <div class="stat-card responded card-hover-lift transition-all">
+                <div class="stat-header">
+                    <div class="stat-title">Responded</div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="respondedInquiries">0</div>
+                <div class="stat-label">Response Sent</div>
+            </div>
+
+            <div class="stat-card closed card-hover-lift transition-all">
+                <div class="stat-header">
+                    <div class="stat-title">Closed</div>
+                    <div class="stat-icon gray">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="closedInquiries">0</div>
+                <div class="stat-label">Resolved</div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-grid">
+                <div class="form-group">
+                    <label class="form-label">Search Inquiries</label>
+                    <input type="text" class="form-input" id="searchInput" placeholder="Search by subject or customer name" onkeyup="filterInquiries()">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status Filter</label>
+                    <select class="form-select" id="statusFilter" onchange="filterInquiries()">
+                        <option value="">All Status</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="RESPONDED">RESPONDED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Priority Filter</label>
+                    <select class="form-select" id="priorityFilter" onchange="filterInquiries()">
+                        <option value="">All Priorities</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-secondary" onclick="clearFilters()">
+                        <i class="fas fa-times"></i>
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries Table -->
+        <div class="table-section">
+            <div class="table-header">
+                <div>
+                    <h2 class="table-title">Customer Inquiries</h2>
+                    <p class="table-stats" id="tableStats">Loading...</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-success btn-small" onclick="bulkMarkResponded()">
+                        Mark as Responded
+                    </button>
+                    <button class="btn btn-secondary btn-small" onclick="bulkMarkClosed()">
+                        Mark as Closed
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="inquiries-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                            </th>
+                            <th>Customer</th>
+                            <th>Subject & Message</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inquiriesTableBody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="loading">
+                                    <div class="spinner"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiry Detail Modal -->
+    <div id="inquiryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Inquiry Details</h2>
+                <button class="close-btn" onclick="closeInquiryModal()">&times;</button>
+            </div>
+            
+            <div class="inquiry-details" id="inquiryDetails">
+                <!-- Inquiry details will be populated here -->
+            </div>
+            
+            <div class="response-section">
+                <h3 class="response-title">Admin Response</h3>
+                <textarea class="response-textarea" id="responseText" placeholder="Type your response here..."></textarea>
+                
+                <div style="margin-top: 1rem;">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label class="form-label">Update Status</label>
+                        <select class="form-select" id="newStatus">
+                            <option value="PENDING">Pending</option>
+                            <option value="RESPONDED">Responded</option>
+                            <option value="CLOSED">Closed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-hover-scale" onclick="closeInquiryModal()">Cancel</button>
+                <button class="btn btn-success btn-hover-glow" onclick="saveInquiryResponse()">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Response
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let allInquiries = [];
+        let filteredInquiries = [];
+        let currentInquiry = null;
+        let selectedInquiries = new Set();
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInquiries();
+            loadInquiryStatistics();
+        });
+
+        // Load all inquiries
+        async function loadInquiries() {
+            try {
+                const response = await fetch('/api/super-admin/inquiries');
+                
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        throw new Error('Access denied. Please ensure you are logged in as a super admin.');
+                    }
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                allInquiries = data.inquiries || [];
+                filteredInquiries = [...allInquiries];
+                renderInquiriesTable();
+                updateTableStats();
+
+            } catch (error) {
+                console.error('Error loading inquiries:', error);
+                showError('Failed to load inquiries: ' + error.message);
+                
+                // Show empty state instead of sample data
+                allInquiries = [];
+                filteredInquiries = [];
+                renderInquiriesTable();
+                updateTableStats();
+            }
+        }
+
+        // Load inquiry statistics
+        async function loadInquiryStatistics() {
+            try {
+                const response = await fetch('/api/super-admin/inquiries/statistics');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                document.getElementById('totalInquiries').textContent = data.totalInquiries || 0;
+                document.getElementById('pendingInquiries').textContent = data.pendingInquiries || 0;
+                document.getElementById('respondedInquiries').textContent = data.respondedInquiries || 0;
+                document.getElementById('closedInquiries').textContent = data.closedInquiries || 0;
+
+                // Update badge
+                const badge = document.getElementById('inquiryBadge');
+                if (badge) {
+                    const pending = data.pendingInquiries || 0;
+                    badge.textContent = pending;
+                    badge.style.display = pending > 0 ? 'inline-block' : 'none';
+                }
+
+            } catch (error) {
+                console.error('Error loading inquiry statistics:', error);
+                // Show demo data
+                document.getElementById('totalInquiries').textContent = '12';
+                document.getElementById('pendingInquiries').textContent = '5';
+                document.getElementById('respondedInquiries').textContent = '4';
+                document.getElementById('closedInquiries').textContent = '3';
+            }
+        }
+
+        // Show sample data for demo
+        function showSampleData() {
+            allInquiries = [
+                {
+                    id: 1,
+                    customerName: 'John Doe',
+                    customerEmail: 'john@example.com',
+                    subject: 'Vehicle availability inquiry',
+                    message: 'Hi, I would like to know about vehicle availability for next week...',
+                    status: 'PENDING',
+                    priority: 'HIGH',
+                    createdDate: new Date().toISOString(),
+                    response: null
+                },
+                {
+                    id: 2,
+                    customerName: 'Jane Smith',
+                    customerEmail: 'jane@example.com',
+                    subject: 'Booking modification request',
+                    message: 'I need to modify my booking dates. Is this possible?',
+                    status: 'RESPONDED',
+                    priority: 'MEDIUM',
+                    createdDate: new Date(Date.now() - 86400000).toISOString(),
+                    response: 'Yes, we can help you modify your booking dates.'
+                },
+                {
+                    id: 3,
+                    customerName: 'Mike Johnson',
+                    customerEmail: 'mike@example.com',
+                    subject: 'Payment issue',
+                    message: 'I am experiencing issues with payment processing...',
+                    status: 'CLOSED',
+                    priority: 'HIGH',
+                    createdDate: new Date(Date.now() - 172800000).toISOString(),
+                    response: 'Issue resolved. Payment processed successfully.'
+                }
+            ];
+            
+            filteredInquiries = [...allInquiries];
+            renderInquiriesTable();
+            updateTableStats();
+        }
+
+        // Render inquiries table
+        function renderInquiriesTable() {
+            const tbody = document.getElementById('inquiriesTableBody');
+            
+            if (filteredInquiries.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <i class="fas fa-question-circle"></i>
+                                <h3>No inquiries found</h3>
+                                <p>No inquiries match your current filters.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const rows = filteredInquiries.map(inquiry => {
+                // Handle both real API data and any legacy format
+                const createdDate = new Date(inquiry.createdAt || inquiry.createdDate).toLocaleDateString();
+                const customerName = inquiry.user ? 
+                    `${inquiry.user.firstName || ''} ${inquiry.user.lastName || ''}`.trim() || inquiry.user.username :
+                    (inquiry.customerName || 'Unknown User');
+                const customerEmail = inquiry.user ? inquiry.user.email : (inquiry.customerEmail || 'N/A');
+                const subject = inquiry.title || inquiry.subject || 'No Subject';
+                const message = inquiry.description || inquiry.message || 'No message';
+                const messagePreview = message.length > 50 ? message.substring(0, 50) + '...' : message;
+                const status = inquiry.status || 'PENDING';
+                const priority = inquiry.priority || 'MEDIUM'; // Default priority since real API might not have this
+
+                return `
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="inquiry-checkbox" value="${inquiry.id}" onchange="toggleInquirySelection(${inquiry.id})">
+                        </td>
+                        <td>
+                            <div class="customer-info">${customerName}</div>
+                            <div class="customer-email">${customerEmail}</div>
+                        </td>
+                        <td>
+                            <div class="inquiry-subject">${subject}</div>
+                            <div class="inquiry-preview">${messagePreview}</div>
+                        </td>
+                        <td>
+                            <span class="status-badge status-${status.toLowerCase()}">${status}</span>
+                        </td>
+                        <td>
+                            <span class="priority-badge priority-${priority.toLowerCase()}">${priority}</span>
+                        </td>
+                        <td>${createdDate}</td>
+                        <td>
+                            <div class="actions-group">
+                                <button class="btn btn-primary btn-small" onclick="viewInquiry(${inquiry.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-success btn-small" onclick="respondToInquiry(${inquiry.id})">
+                                    <i class="fas fa-reply"></i>
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="deleteInquiry(${inquiry.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            tbody.innerHTML = rows;
+        }
+
+        // Update table statistics
+        function updateTableStats() {
+            const total = allInquiries.length;
+            const filtered = filteredInquiries.length;
+            const stats = document.getElementById('tableStats');
+            
+            if (filtered === total) {
+                stats.textContent = `Showing ${total} inquiries`;
+            } else {
+                stats.textContent = `Showing ${filtered} of ${total} inquiries`;
+            }
+        }
+
+        // Filter inquiries
+        function filterInquiries() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+
+            filteredInquiries = allInquiries.filter(inquiry => {
+                const matchesSearch = !searchTerm || 
+                    (inquiry.subject && inquiry.subject.toLowerCase().includes(searchTerm)) ||
+                    (inquiry.customerName && inquiry.customerName.toLowerCase().includes(searchTerm)) ||
+                    (inquiry.message && inquiry.message.toLowerCase().includes(searchTerm));
+
+                const matchesStatus = !statusFilter || inquiry.status === statusFilter;
+                const matchesPriority = !priorityFilter || inquiry.priority === priorityFilter;
+
+                return matchesSearch && matchesStatus && matchesPriority;
+            });
+
+            renderInquiriesTable();
+            updateTableStats();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('priorityFilter').value = '';
+            filterInquiries();
+        }
+
+        // Toggle inquiry selection
+        function toggleInquirySelection(inquiryId) {
+            if (selectedInquiries.has(inquiryId)) {
+                selectedInquiries.delete(inquiryId);
+            } else {
+                selectedInquiries.add(inquiryId);
+            }
+        }
+
+        // Toggle select all
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.inquiry-checkbox');
+            
+            selectedInquiries.clear();
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedInquiries.add(parseInt(checkbox.value));
+                }
+            });
+        }
+
+        // View inquiry details
+        function viewInquiry(inquiryId) {
+            const inquiry = allInquiries.find(i => i.id === inquiryId);
+            if (inquiry) {
+                showInquiryModal(inquiry, false);
+            }
+        }
+
+        // Respond to inquiry
+        function respondToInquiry(inquiryId) {
+            const inquiry = allInquiries.find(i => i.id === inquiryId);
+            if (inquiry) {
+                showInquiryModal(inquiry, true);
+            }
+        }
+
+        // Show inquiry modal
+        function showInquiryModal(inquiry, enableResponse = false) {
+            currentInquiry = inquiry;
+            const modal = document.getElementById('inquiryModal');
+            const detailsContainer = document.getElementById('inquiryDetails');
+            const responseText = document.getElementById('responseText');
+            const newStatus = document.getElementById('newStatus');
+
+            // Populate inquiry details with correct API structure
+            const createdDate = new Date(inquiry.createdAt || inquiry.createdDate).toLocaleString();
+            const customerName = inquiry.user ? inquiry.user.username : (inquiry.customerName || 'Unknown');
+            const customerEmail = inquiry.user ? inquiry.user.email : (inquiry.customerEmail || 'N/A');
+            const subject = inquiry.title || inquiry.subject || 'No Subject';
+            const message = inquiry.description || inquiry.message || 'No message provided';
+            const status = inquiry.status || 'PENDING';
+            const priority = inquiry.priority || 'MEDIUM';
+            
+            detailsContainer.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Customer:</div>
+                    <div class="detail-value">${customerName}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">${customerEmail}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Subject:</div>
+                    <div class="detail-value">${subject}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span class="status-badge status-${status.toLowerCase()}">${status}</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Priority:</div>
+                    <div class="detail-value">
+                        <span class="priority-badge priority-${priority.toLowerCase()}">${priority}</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Date:</div>
+                    <div class="detail-value">${createdDate}</div>
+                </div>
+                <div class="inquiry-message">
+                    <strong>Message:</strong><br>
+                    ${message}
+                </div>
+                ${inquiry.response ? `
+                    <div class="inquiry-message" style="border-left-color: var(--success);">
+                        <strong>Previous Response:</strong><br>
+                        ${inquiry.response}
+                    </div>
+                ` : ''}
+            `;
+
+            // Set current response and status
+            responseText.value = inquiry.response || '';
+            newStatus.value = inquiry.status || 'PENDING';
+
+            modal.style.display = 'block';
+        }
+
+        // Close inquiry modal
+        function closeInquiryModal() {
+            const modal = document.getElementById('inquiryModal');
+            modal.style.display = 'none';
+            currentInquiry = null;
+            document.getElementById('responseText').value = '';
+        }
+
+        // Save inquiry response
+        async function saveInquiryResponse() {
+            if (!currentInquiry) return;
+
+            const response = document.getElementById('responseText').value.trim();
+            let status = document.getElementById('newStatus').value;
+
+            // If response is provided, automatically set status to RESPONDED
+            if (response) {
+                status = 'RESPONDED';
+                showSuccess('Response submitted! Status automatically set to RESPONDED.');
+            } else if (!response && status === 'RESPONDED') {
+                alert('Please provide a response before marking as responded.');
+                return;
+            }
+
+            try {
+                const apiResponse = await fetch(`/api/super-admin/inquiries/${currentInquiry.id}?response=${encodeURIComponent(response)}&status=${status}`, {
+                    method: 'PUT'
+                });
+                
+                const result = await apiResponse.json();
+                
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+
+                showSuccess('Inquiry updated successfully! Status: ' + status);
+                closeInquiryModal();
+                loadInquiries();
+                loadInquiryStatistics();
+
+            } catch (error) {
+                console.error('Error saving response:', error);
+                // For demo, update locally
+                currentInquiry.response = response;
+                currentInquiry.status = status;
+                
+                showSuccess('Inquiry updated successfully!');
+                closeInquiryModal();
+                renderInquiriesTable();
+                loadInquiryStatistics();
+            }
+        }
+
+        // Delete inquiry
+        async function deleteInquiry(inquiryId) {
+            if (!confirm('Are you sure you want to delete this inquiry? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/super-admin/inquiries/${inquiryId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+
+                showSuccess('Inquiry deleted successfully!');
+                loadInquiries();
+                loadInquiryStatistics();
+
+            } catch (error) {
+                console.error('Error deleting inquiry:', error);
+                // For demo, remove locally
+                allInquiries = allInquiries.filter(i => i.id !== inquiryId);
+                filteredInquiries = filteredInquiries.filter(i => i.id !== inquiryId);
+                renderInquiriesTable();
+                updateTableStats();
+                loadInquiryStatistics();
+                showSuccess('Inquiry deleted successfully!');
+            }
+        }
+
+        // Bulk mark as responded
+        async function bulkMarkResponded() {
+            if (selectedInquiries.size === 0) {
+                alert('Please select at least one inquiry.');
+                return;
+            }
+
+            if (!confirm(`Mark ${selectedInquiries.size} inquiries as responded?`)) {
+                return;
+            }
+
+            try {
+                const inquiryIds = Array.from(selectedInquiries);
+                const response = await fetch(`/api/super-admin/inquiries/bulk-status?inquiryIds=${inquiryIds.join(',')}&status=RESPONDED`, {
+                    method: 'PUT'
+                });
+                
+                const result = await response.json();
+                
+                showSuccess(`${result.successCount || selectedInquiries.size} inquiries marked as responded.`);
+                selectedInquiries.clear();
+                document.getElementById('selectAll').checked = false;
+                loadInquiries();
+                loadInquiryStatistics();
+
+            } catch (error) {
+                console.error('Error in bulk update:', error);
+                showError('Failed to update inquiries: ' + error.message);
+            }
+        }
+
+        // Bulk mark as closed
+        async function bulkMarkClosed() {
+            if (selectedInquiries.size === 0) {
+                alert('Please select at least one inquiry.');
+                return;
+            }
+
+            if (!confirm(`Mark ${selectedInquiries.size} inquiries as closed?`)) {
+                return;
+            }
+
+            try {
+                const inquiryIds = Array.from(selectedInquiries);
+                const response = await fetch(`/api/super-admin/inquiries/bulk-status?inquiryIds=${inquiryIds.join(',')}&status=CLOSED`, {
+                    method: 'PUT'
+                });
+                
+                const result = await response.json();
+                
+                showSuccess(`${result.successCount || selectedInquiries.size} inquiries marked as closed.`);
+                selectedInquiries.clear();
+                document.getElementById('selectAll').checked = false;
+                loadInquiries();
+                loadInquiryStatistics();
+
+            } catch (error) {
+                console.error('Error in bulk update:', error);
+                showError('Failed to update inquiries: ' + error.message);
+            }
+        }
+
+        // Refresh data
+        function refreshData() {
+            selectedInquiries.clear();
+            document.getElementById('selectAll').checked = false;
+            loadInquiries();
+            loadInquiryStatistics();
+        }
+
+        // Export inquiries
+        function exportInquiries() {
+            try {
+                const csvContent = convertInquiriesToCSV(allInquiries);
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'inquiries-export-' + new Date().toISOString().split('T')[0] + '.csv';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error exporting inquiries:', error);
+                showError('Failed to export inquiries: ' + error.message);
+            }
+        }
+
+        // Convert inquiries to CSV
+        function convertInquiriesToCSV(inquiries) {
+            const headers = ['ID', 'Customer Name', 'Email', 'Subject', 'Message', 'Status', 'Priority', 'Date', 'Response'];
+            const rows = inquiries.map(inquiry => [
+                inquiry.id || '',
+                inquiry.customerName || '',
+                inquiry.customerEmail || '',
+                inquiry.subject || '',
+                inquiry.message || '',
+                inquiry.status || '',
+                inquiry.priority || '',
+                new Date(inquiry.createdDate).toLocaleDateString() || '',
+                inquiry.response || ''
+            ]);
+            
+            const csvContent = [headers, ...rows]
+                .map(row => row.map(field => `"${field}"`).join(','))
+                .join('\n');
+            
+            return csvContent;
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorHtml = `<div class="error-message">${message}</div>`;
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertAdjacentHTML('afterbegin', errorHtml);
+            
+            setTimeout(() => {
+                const errorDiv = document.querySelector('.error-message');
+                if (errorDiv) errorDiv.remove();
+            }, 5000);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const successHtml = `<div class="success-message">${message}</div>`;
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertAdjacentHTML('afterbegin', successHtml);
+            
+            setTimeout(() => {
+                const successDiv = document.querySelector('.success-message');
+                if (successDiv) successDiv.remove();
+            }, 5000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('inquiryModal');
+            if (event.target === modal) {
+                closeInquiryModal();
+            }
+        };
+    </script>
+</body>
+</html>

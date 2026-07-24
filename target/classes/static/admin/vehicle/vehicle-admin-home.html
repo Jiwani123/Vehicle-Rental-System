@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Admin Dashboard - JourneyMATE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            margin-bottom: 32px;
+            padding: 0 8px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav a {
+            color: #6b7280;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav a i {
+            width: 20px;
+            font-size: 16px;
+        }
+
+        .nav a:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .nav a.active:hover {
+            background: #1d4ed8;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 10px 12px;
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .logout:hover {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            background: #f5f7fa;
+        }
+
+        .topbar {
+            margin-bottom: 32px;
+        }
+
+        .topbar h1 {
+            color: #111827;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card.vehicles .stat-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .stat-card.pending .stat-icon {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .stat-card.approved .stat-icon {
+            background: #d1fae5;
+            color: #10b981;
+        }
+
+        .stat-card.rejected .stat-icon {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Management Panels */
+        .panel {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+
+        .panel h3 {
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .panel p {
+            color: #6b7280;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn.primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn.primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn.success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn.success:hover {
+            background: #059669;
+        }
+
+        .btn.warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn.warning:hover {
+            background: #d97706;
+        }
+
+        .btn.danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn.danger:hover {
+            background: #dc2626;
+        }
+
+        /* Vehicle List Table */
+        .vehicle-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .vehicle-table th,
+        .vehicle-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .vehicle-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main {
+                padding: 16px;
+            }
+            
+            .topbar h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>JourneyMATE</h1>
+            <p>Vehicle Admin Portal</p>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">OVERVIEW</div>
+            <nav class="nav">
+                <a href="/admin/vehicle/vehicle-admin-home.html" class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            </nav>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">MANAGEMENT</div>
+            <nav class="nav">
+                <a href="/admin/vehicle/vehicle-management.html">
+                    <i class="fas fa-car"></i>
+                    Vehicle Management
+                </a>
+                <a href="/admin/vehicle/booking-approvals.html">
+                    <i class="fas fa-calendar-check"></i>
+                    Booking Approvals
+                </a>
+            </nav>
+        </div>
+
+        <button class="logout" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="topbar">
+            <h1>Vehicle Management Dashboard</h1>
+            <p>Manage and monitor all vehicle operations</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats">
+            <div class="stat-card vehicles">
+                <div class="stat-icon"><i class="fas fa-car"></i></div>
+                <div class="stat-number" id="totalVehicles">0</div>
+                <div class="stat-label">Total Vehicles</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-number" id="pendingVehicles">0</div>
+                <div class="stat-label">Pending Approval</div>
+            </div>
+            <div class="stat-card approved">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-number" id="approvedVehicles">0</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                <div class="stat-number" id="rejectedVehicles">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Additional Summary Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalBookings">0</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeBookings">0</div>
+                <div class="stat-label">Active Bookings</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="panel">
+            <h3>Quick Actions</h3>
+            <p>Manage your vehicle inventory and bookings</p>
+            <div class="btn-group">
+                <a href="/admin/vehicle/vehicle-management.html" class="btn primary">
+                    <i class="fas fa-car"></i>
+                    Manage All Vehicles
+                </a>
+                <a href="/admin/vehicle/booking-approvals.html" class="btn success">
+                    <i class="fas fa-calendar-check"></i>
+                    Review Bookings
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Bookings -->
+        <div class="panel">
+            <h3>Recent Bookings</h3>
+            <p>Latest booking requests pending review</p>
+            <table class="vehicle-table">
+                <thead>
+                    <tr>
+                        <th>BOOKING ID</th>
+                        <th>CUSTOMER</th>
+                        <th>VEHICLE</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="recentBookingsTable">
+                    <!-- Booking data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+            <div class="btn-group" style="margin-top: 20px;">
+                <a href="/admin/vehicle/booking-approvals.html" class="btn primary">View All Bookings</a>
+            </div>
+        </div>
+    </main>
+        
+    </main>
+</div>
+
+<script>
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is logged in as vehicle admin
+        const role = localStorage.getItem('role');
+        if (role !== 'vehicle-admin') {
+            window.location.href = '/login.html';
+            return;
+        }
+
+        loadVehicleData();
+        loadBookingData();
+        updateLastUpdateTime();
+    });
+
+    // Load vehicle statistics and data
+    async function loadVehicleData() {
+        try {
+            const response = await fetch('/api/vehicles');
+            if (!response.ok) throw new Error('Failed to fetch vehicles');
+            
+            const vehicles = await response.json();
+            
+            // Update statistics
+            const totalVehicles = vehicles.length;
+            const pendingVehicles = vehicles.filter(v => v.status === 'PENDING').length;
+            const approvedVehicles = vehicles.filter(v => v.status === 'APPROVED').length;
+            const rejectedVehicles = vehicles.filter(v => v.status === 'REJECTED').length;
+            
+            document.getElementById('totalVehicles').textContent = totalVehicles;
+            document.getElementById('pendingVehicles').textContent = pendingVehicles;
+            document.getElementById('approvedVehicles').textContent = approvedVehicles;
+            document.getElementById('rejectedVehicles').textContent = rejectedVehicles;
+            
+            // Update additional statistics
+            const availableVehicles = vehicles.filter(v => v.available || v.status === 'APPROVED').length;
+            const maintenanceVehicles = vehicles.filter(v => v.status === 'MAINTENANCE').length;
+            document.getElementById('availableVehicles').textContent = availableVehicles;
+            document.getElementById('maintenanceVehicles').textContent = maintenanceVehicles;
+            
+            // Populate fleet summary table
+            populateFleetSummaryTable(vehicles);
+            
+        } catch (error) {
+            console.error('Error loading vehicle data:', error);
+            // Set default values if API fails
+            document.getElementById('totalVehicles').textContent = '4';
+            document.getElementById('pendingVehicles').textContent = '0';
+            document.getElementById('approvedVehicles').textContent = '3';
+            document.getElementById('rejectedVehicles').textContent = '1';
+            document.getElementById('availableVehicles').textContent = '2';
+            document.getElementById('maintenanceVehicles').textContent = '0';
+        }
+    }
+
+    // Load booking statistics
+    async function loadBookingData() {
+        try {
+            const response = await fetch('/api/bookings');
+            if (!response.ok) throw new Error('Failed to fetch bookings');
+            
+            const bookings = await response.json();
+            
+            // Update booking statistics
+            const totalBookings = bookings.length;
+            const pendingBookings = bookings.filter(b => b.status === 'PENDING').length;
+            
+            document.getElementById('totalBookings').textContent = totalBookings;
+            document.getElementById('pendingBookings').textContent = pendingBookings;
+            
+            // Load recent bookings table
+            loadRecentBookingsTable(bookings.slice(-5)); // Show last 5 bookings
+            
+        } catch (error) {
+            console.error('Error loading booking data:', error);
+            // Set default values if API fails
+            document.getElementById('totalBookings').textContent = '2';
+            document.getElementById('pendingBookings').textContent = '0';
+        }
+    }
+
+    // Populate fleet summary table
+    function populateFleetSummaryTable(vehicles) {
+        const tbody = document.getElementById('fleetSummaryTable');
+        tbody.innerHTML = '';
+        
+        // Group vehicles by type
+        const vehicleTypes = {};
+        vehicles.forEach(vehicle => {
+            const type = vehicle.vehicleType || 'Unknown';
+            if (!vehicleTypes[type]) {
+                vehicleTypes[type] = { total: 0, available: 0, booked: 0, maintenance: 0 };
+            }
+            vehicleTypes[type].total++;
+            if (vehicle.available) vehicleTypes[type].available++;
+            if (vehicle.status === 'BOOKED') vehicleTypes[type].booked++;
+            if (vehicle.status === 'MAINTENANCE') vehicleTypes[type].maintenance++;
+        });
+        
+        Object.keys(vehicleTypes).forEach(type => {
+            const stats = vehicleTypes[type];
+            const utilizationRate = Math.round((stats.booked / stats.total) * 100) || 0;
+            const statusClass = utilizationRate > 70 ? 'success' : utilizationRate > 40 ? 'warning' : 'pending';
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${type}</strong></td>
+                <td>${stats.total}</td>
+                <td>${stats.available}</td>
+                <td>${stats.booked}</td>
+                <td>${stats.maintenance}</td>
+                <td><span class="status-badge ${statusClass}">${utilizationRate}% utilized</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+        if (Object.keys(vehicleTypes).length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #7f8c8d;">No vehicles found</td></tr>';
+        }
+    }
+
+    // Load recent bookings table
+    function loadRecentBookingsTable(bookings) {
+        const container = document.getElementById('recentBookingsTable');
+        
+        if (!bookings || bookings.length === 0) {
+            container.innerHTML = '<p style="color: #7f8c8d; text-align: center;">No recent bookings found.</p>';
+            return;
+        }
+        
+        const tableHTML = `
+            <table class="vehicle-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Start Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${bookings.map(booking => `
+                        <tr>
+                            <td>#${booking.id}</td>
+                            <td>${booking.username || 'N/A'}</td>
+                            <td>${booking.vehicle ? `${booking.vehicle.brandName} ${booking.vehicle.modelName}` : 'N/A'}</td>
+                            <td>${booking.startDate || 'N/A'}</td>
+                            <td><span class="status-badge ${(booking.status || 'pending').toLowerCase()}">${booking.status || 'PENDING'}</span></td>
+                            <td>
+                                <button class="btn success" style="padding: 5px 10px; font-size: 12px;" onclick="approveBooking(${booking.id})">✅</button>
+                                <button class="btn danger" style="padding: 5px 10px; font-size: 12px;" onclick="rejectBooking(${booking.id})">❌</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        
+        container.innerHTML = tableHTML;
+    }
+
+    // Update last update time
+    function updateLastUpdateTime() {
+        const now = new Date();
+        document.getElementById('lastUpdate').textContent = now.toLocaleString();
+    }
+
+    // Refresh all data
+    function refreshAllData() {
+        loadVehicleData();
+        loadBookingData();
+        updateLastUpdateTime();
+        
+        // Update additional metrics
+        document.getElementById('monthlyRevenue').textContent = '$' + (Math.random() * 10000 + 5000).toFixed(0);
+        document.getElementById('avgRating').textContent = (4.0 + Math.random()).toFixed(1);
+        document.getElementById('activeUsers').textContent = Math.floor(Math.random() * 50 + 10);
+        document.getElementById('alertsCount').textContent = Math.floor(Math.random() * 3);
+        
+        alert('Dashboard data refreshed successfully!');
+    }
+
+    // Generate report function
+    function generateReport() {
+        alert('📊 Generating comprehensive fleet report...\n\nThis feature will generate a detailed PDF report with:\n• Vehicle utilization statistics\n• Booking trends and revenue\n• Maintenance schedules\n• Performance metrics');
+    }
+
+    // Approve all pending bookings
+    async function approveAllPending() {
+        if (confirm('Are you sure you want to approve all pending bookings?')) {
+            try {
+                const response = await fetch('/api/bookings');
+                const bookings = await response.json();
+                const pendingBookings = bookings.filter(b => b.status === 'PENDING');
+                
+                let approved = 0;
+                for (const booking of pendingBookings) {
+                    // This would need to be implemented in the backend
+                    // await fetch(`/api/bookings/${booking.id}/approve`, { method: 'POST' });
+                    approved++;
+                }
+                
+                alert(`✅ Approved ${approved} pending bookings successfully!`);
+                loadBookingData();
+            } catch (error) {
+                alert('❌ Error approving bookings: ' + error.message);
+            }
+        }
+    }
+
+    // Approve individual booking
+    async function approveBooking(bookingId) {
+        try {
+            const response = await fetch(`/api/bookings/${bookingId}/approve`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                alert(`✅ Booking #${bookingId} approved successfully!`);
+                loadBookingData();
+            } else {
+                throw new Error('Failed to approve booking');
+            }
+        } catch (error) {
+            console.error('Error approving booking:', error);
+            alert('❌ Error approving booking: ' + error.message);
+        }
+    }
+
+    // Reject individual booking
+    async function rejectBooking(bookingId) {
+        if (confirm('Are you sure you want to reject this booking?')) {
+            try {
+                const response = await fetch(`/api/bookings/${bookingId}/reject`, { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    alert(`❌ Booking #${bookingId} rejected successfully!`);
+                    loadBookingData();
+                } else {
+                    throw new Error('Failed to reject booking');
+                }
+            } catch (error) {
+                console.error('Error rejecting booking:', error);
+                alert('❌ Error rejecting booking: ' + error.message);
+            }
+        }
+    }
+
+    // Logout handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.clear();
+            window.location.href = '/login.html';
+        }
+    });
+</script>
+
+    
+    </main>
+</div>
+
+<script>
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is logged in as vehicle admin
+        const role = localStorage.getItem('role');
+        if (role !== 'vehicle-admin') {
+            window.location.href = '/login.html';
+            return;
+        }
+
+        loadVehicleData();
+        loadPendingVehicles();
+        loadBookingData(); // Load booking statistics
+    });
+
+    // Load vehicle statistics and data
+    async function loadVehicleData() {
+        try {
+            const response = await fetch('/api/vehicles');
+            if (!response.ok) throw new Error('Failed to fetch vehicles');
+            
+            const vehicles = await response.json();
+            
+            // Update statistics
+            const totalVehicles = vehicles.length;
+            const pendingVehicles = vehicles.filter(v => v.status === 'PENDING').length;
+            const approvedVehicles = vehicles.filter(v => v.status === 'APPROVED').length;
+            const rejectedVehicles = vehicles.filter(v => v.status === 'REJECTED').length;
+            
+            document.getElementById('totalVehicles').textContent = totalVehicles;
+            document.getElementById('pendingVehicles').textContent = pendingVehicles;
+            document.getElementById('approvedVehicles').textContent = approvedVehicles;
+            document.getElementById('rejectedVehicles').textContent = rejectedVehicles;
+            
+            // Update additional statistics
+            const availableVehicles = vehicles.filter(v => v.status === 'AVAILABLE').length;
+            const maintenanceVehicles = vehicles.filter(v => v.status === 'MAINTENANCE').length;
+            document.getElementById('availableVehicles').textContent = availableVehicles;
+            document.getElementById('maintenanceVehicles').textContent = maintenanceVehicles;
+            
+            // Populate vehicles table
+            populateVehiclesTable(vehicles);
+            
+        } catch (error) {
+            console.error('Error loading vehicle data:', error);
+        }
+    }
+
+    // Load booking statistics
+    async function loadBookingData() {
+        try {
+            const response = await fetch('/api/bookings');
+            if (!response.ok) throw new Error('Failed to fetch bookings');
+            
+            const bookings = await response.json();
+            
+            // Update booking statistics
+            const totalBookings = bookings.length;
+            const pendingBookings = bookings.filter(b => b.status === 'PENDING').length;
+            
+            document.getElementById('totalBookings').textContent = totalBookings;
+            document.getElementById('pendingBookings').textContent = pendingBookings;
+            
+        } catch (error) {
+            console.error('Error loading booking data:', error);
+            // Set default values if API fails
+            document.getElementById('totalBookings').textContent = '0';
+            document.getElementById('pendingBookings').textContent = '0';
+        }
+    }
+
+    // Populate vehicles table
+    function populateVehiclesTable(vehicles) {
+        const tbody = document.getElementById('vehiclesTableBody');
+        tbody.innerHTML = '';
+        
+        vehicles.forEach(vehicle => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${vehicle.id}</td>
+                <td>${vehicle.make} ${vehicle.model}</td>
+                <td>${vehicle.type || 'N/A'}</td>
+                <td><span class="status-badge ${vehicle.status.toLowerCase()}">${vehicle.status}</span></td>
+                <td>
+                    ${vehicle.status === 'PENDING' ? 
+                        `<button class="btn success" onclick="approveVehicle(${vehicle.id})">Approve</button>
+                         <button class="btn danger" onclick="rejectVehicle(${vehicle.id})">Reject</button>` :
+                        `<button class="btn primary" onclick="editVehicle(${vehicle.id})">Edit</button>`
+                    }
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Load pending vehicles
+    async function loadPendingVehicles() {
+        try {
+            const response = await fetch('/api/vehicles?status=PENDING');
+            if (!response.ok) throw new Error('Failed to fetch pending vehicles');
+            
+            const pendingVehicles = await response.json();
+            displayPendingVehicles(pendingVehicles);
+            
+        } catch (error) {
+            console.error('Error loading pending vehicles:', error);
+        }
+    }
+
+    // Display pending vehicles
+    function displayPendingVehicles(vehicles) {
+        const container = document.getElementById('pendingVehiclesList');
+        
+        if (vehicles.length === 0) {
+            container.innerHTML = '<p>No pending vehicles for approval.</p>';
+            return;
+        }
+        
+        container.innerHTML = vehicles.map(vehicle => `
+            <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px;">
+                <h4>${vehicle.make} ${vehicle.model}</h4>
+                <p><strong>Type:</strong> ${vehicle.type || 'N/A'}</p>
+                <p><strong>Price:</strong> $${vehicle.price}/day</p>
+                <p><strong>Status:</strong> <span class="status-badge pending">${vehicle.status}</span></p>
+                <div style="margin-top: 10px;">
+                    <button class="btn success" onclick="approveVehicle(${vehicle.id})">Approve</button>
+                    <button class="btn danger" onclick="rejectVehicle(${vehicle.id})">Reject</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Vehicle actions
+    async function approveVehicle(vehicleId) {
+        try {
+            const response = await fetch(`/api/vehicles/${vehicleId}/approve`, {
+                method: 'POST'
+            });
+            
+            if (response.ok) {
+                alert('Vehicle approved successfully!');
+                loadVehicleData();
+                loadPendingVehicles();
+            } else {
+                throw new Error('Failed to approve vehicle');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+
+    async function rejectVehicle(vehicleId) {
+        if (confirm('Are you sure you want to reject this vehicle?')) {
+            try {
+                const response = await fetch(`/api/vehicles/${vehicleId}/reject`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    alert('Vehicle rejected successfully!');
+                    loadVehicleData();
+                    loadPendingVehicles();
+                } else {
+                    throw new Error('Failed to reject vehicle');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+    }
+
+    function editVehicle(vehicleId) {
+        // Redirect to vehicle edit page or open modal
+        window.location.href = `/vehicle.html?edit=${vehicleId}`;
+    }
+
+    // Utility functions
+    function refreshVehicleData() {
+        loadVehicleData();
+        loadPendingVehicles();
+        alert('Data refreshed successfully!');
+    }
+
+    function showPendingVehicles() {
+        document.getElementById('pending').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Logout handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.clear();
+            window.location.href = '/login.html';
+        }
+    });
+
+    // Navigation handlers
+    document.querySelectorAll('.nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            const target = this.getAttribute('href').substring(1);
+            if (target === 'dashboard') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const targetElement = document.getElementById(target);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

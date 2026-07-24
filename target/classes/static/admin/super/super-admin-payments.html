@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management - JourneyMATE Super Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 2rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            border-left-color: var(--primary-dark);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background: var(--error);
+            color: var(--white);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .content-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .stat-icon.pending {
+            background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);
+        }
+
+        .stat-icon.approved {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+        }
+
+        .stat-icon.rejected {
+            background: linear-gradient(135deg, var(--error) 0%, #f87171 100%);
+        }
+
+        .stat-icon.total {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select, .filter-input {
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            background: var(--white);
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Payment Slips Table */
+        .table-container {
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .payment-slips-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-slips-table th {
+            background: var(--gray-50);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .payment-slips-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.875rem;
+        }
+
+        .payment-slips-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.1);
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #991b1b;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin: 0 0.25rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-xl);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--gray-600);
+        }
+
+        /* Slip Preview */
+        .slip-preview {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .slip-image {
+            max-width: 100%;
+            max-height: 400px;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+        }
+
+        .slip-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: var(--gray-900);
+            font-size: 0.875rem;
+        }
+
+        .review-section {
+            margin: 1.5rem 0;
+        }
+
+        .review-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            resize: vertical;
+        }
+
+        .review-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-600);
+        }
+
+        .spinner {
+            border: 2px solid var(--gray-200);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .slip-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">JourneyMATE</div>
+            <div class="sidebar-subtitle">Super Admin Portal</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <a href="super-admin-dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Management</div>
+                <a href="super-admin-users.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </a>
+                <a href="super-admin-feedback.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    Feedback Management
+                </a>
+                <a href="super-admin-inquiries.html" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    Inquiries
+                </a>
+                <a href="super-admin-payments.html" class="nav-item active">
+                    <i class="fas fa-credit-card"></i>
+                    Payment Management
+                </a>
+                <a href="super-admin-reports.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Reports
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">System</div>
+                <a href="#" class="nav-item" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                </a>
+                <a href="../../index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div>
+                <h1 class="header-title">Payment Management</h1>
+                <p class="header-subtitle">Review and manage bank transfer payment slips</p>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending Review</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon approved">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="approvedCount">0</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon rejected">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="rejectedCount">0</div>
+                    <div class="stat-label">Rejected</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="totalCount">0</div>
+                    <div class="stat-label">Total Slips</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-select" id="statusFilter" onchange="filterPaymentSlips()">
+                        <option value="">All Statuses</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="APPROVED">Approved</option>
+                        <option value="REJECTED">Rejected</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Search</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="Search by reference, customer..." onkeyup="filterPaymentSlips()">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Date From</label>
+                    <input type="date" class="filter-input" id="dateFromFilter" onchange="filterPaymentSlips()">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Date To</label>
+                    <input type="date" class="filter-input" id="dateToFilter" onchange="filterPaymentSlips()">
+                </div>
+                
+                <div class="filter-group">
+                    <button class="btn btn-secondary" onclick="clearFilters()">
+                        <i class="fas fa-times"></i>
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Slips Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3 class="table-title">Payment Slips</h3>
+                <button class="btn btn-primary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+            
+            <div id="loadingIndicator" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                Loading payment slips...
+            </div>
+            
+            <table class="payment-slips-table" id="paymentSlipsTable">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Transfer Reference</th>
+                        <th>Amount</th>
+                        <th>Upload Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentSlipsTableBody">
+                    <!-- Table rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Payment Slip Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Review Payment Slip</h2>
+            </div>
+            
+            <div id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeReviewModal()">Cancel</button>
+                <button class="btn btn-danger" onclick="rejectPaymentSlip()">
+                    <i class="fas fa-times"></i>
+                    Reject
+                </button>
+                <button class="btn btn-success" onclick="approvePaymentSlip()">
+                    <i class="fas fa-check"></i>
+                    Approve
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let paymentSlips = [];
+        let filteredSlips = [];
+        let currentSlip = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaymentSlips();
+            setDefaultDateFilters();
+        });
+
+        // Set default date filters (last 30 days)
+        function setDefaultDateFilters() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            document.getElementById('dateFromFilter').value = thirtyDaysAgo.toISOString().split('T')[0];
+            document.getElementById('dateToFilter').value = today.toISOString().split('T')[0];
+        }
+
+        // Load payment slips from API
+        async function loadPaymentSlips() {
+            try {
+                showLoading(true);
+                
+                const response = await fetch('/api/payment-slips', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    paymentSlips = await response.json();
+                    filteredSlips = [...paymentSlips];
+                    updateStatistics();
+                    populateTable();
+                } else {
+                    throw new Error('Failed to load payment slips');
+                }
+            } catch (error) {
+                console.error('Error loading payment slips:', error);
+                showError('Failed to load payment slips: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const pending = paymentSlips.filter(slip => slip.status === 'PENDING').length;
+            const approved = paymentSlips.filter(slip => slip.status === 'APPROVED').length;
+            const rejected = paymentSlips.filter(slip => slip.status === 'REJECTED').length;
+            
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('rejectedCount').textContent = rejected;
+            document.getElementById('totalCount').textContent = paymentSlips.length;
+        }
+
+        // Populate table with payment slips
+        function populateTable() {
+            const tbody = document.getElementById('paymentSlipsTableBody');
+            
+            if (filteredSlips.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                            <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                            No payment slips found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredSlips.map(slip => `
+                <tr>
+                    <td><strong>#${slip.bookingId}</strong></td>
+                    <td>${slip.uploadedBy}</td>
+                    <td>${slip.transferReference}</td>
+                    <td>$${slip.payment?.amount?.toFixed(2) || 'N/A'}</td>
+                    <td>${formatDate(slip.uploadedAt)}</td>
+                    <td><span class="status-badge status-${slip.status.toLowerCase()}">${slip.status}</span></td>
+                    <td>
+                        <button class="btn btn-primary" onclick="reviewPaymentSlip(${slip.id})">
+                            <i class="fas fa-eye"></i>
+                            Review
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadSlip(${slip.id})">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter payment slips
+        function filterPaymentSlips() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const dateFromFilter = document.getElementById('dateFromFilter').value;
+            const dateToFilter = document.getElementById('dateToFilter').value;
+
+            filteredSlips = paymentSlips.filter(slip => {
+                const matchesStatus = !statusFilter || slip.status === statusFilter;
+                const matchesSearch = !searchInput || 
+                    slip.transferReference.toLowerCase().includes(searchInput) ||
+                    slip.uploadedBy.toLowerCase().includes(searchInput) ||
+                    slip.bookingId.toString().includes(searchInput);
+                    
+                const slipDate = new Date(slip.uploadedAt).toISOString().split('T')[0];
+                const matchesDateFrom = !dateFromFilter || slipDate >= dateFromFilter;
+                const matchesDateTo = !dateToFilter || slipDate <= dateToFilter;
+
+                return matchesStatus && matchesSearch && matchesDateFrom && matchesDateTo;
+            });
+
+            populateTable();
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dateFromFilter').value = '';
+            document.getElementById('dateToFilter').value = '';
+            
+            filteredSlips = [...paymentSlips];
+            populateTable();
+        }
+
+        // Review payment slip
+        async function reviewPaymentSlip(slipId) {
+            try {
+                const response = await fetch(`/api/payment-slips/${slipId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    currentSlip = await response.json();
+                    showReviewModal();
+                } else {
+                    throw new Error('Failed to load payment slip details');
+                }
+            } catch (error) {
+                console.error('Error loading payment slip:', error);
+                showError('Failed to load payment slip details');
+            }
+        }
+
+        // Show review modal
+        function showReviewModal() {
+            if (!currentSlip) return;
+
+            const modalContent = document.getElementById('modalContent');
+            const fileExtension = currentSlip.fileName.split('.').pop().toLowerCase();
+            const isImage = ['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileExtension);
+
+            modalContent.innerHTML = `
+                <div class="slip-info">
+                    <div class="info-item">
+                        <span class="info-label">Booking ID</span>
+                        <span class="info-value">#${currentSlip.bookingId}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Customer</span>
+                        <span class="info-value">${currentSlip.uploadedBy}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Transfer Reference</span>
+                        <span class="info-value">${currentSlip.transferReference}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Upload Date</span>
+                        <span class="info-value">${formatDate(currentSlip.uploadedAt)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">File Name</span>
+                        <span class="info-value">${currentSlip.fileName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">File Size</span>
+                        <span class="info-value">${formatFileSize(currentSlip.fileSize)}</span>
+                    </div>
+                </div>
+
+                <div class="slip-preview">
+                    ${isImage ? 
+                        `<img src="/api/payment-slips/${currentSlip.id}/download" alt="Payment Slip" class="slip-image" onerror="this.style.display='none'">` :
+                        `<div style="padding: 2rem; border: 1px solid var(--gray-200); border-radius: 0.5rem; background: var(--gray-50);">
+                            <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--error); margin-bottom: 1rem;"></i>
+                            <div>PDF File - Click download to view</div>
+                        </div>`
+                    }
+                </div>
+
+                ${currentSlip.reviewNotes ? `
+                    <div class="review-section">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--gray-700);">Previous Review Notes</h4>
+                        <div style="padding: 1rem; background: var(--gray-50); border-radius: 0.5rem; font-size: 0.875rem;">
+                            ${currentSlip.reviewNotes}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="review-section">
+                    <label class="info-label" for="reviewNotes">Review Notes</label>
+                    <textarea id="reviewNotes" class="review-textarea" placeholder="Enter your review notes here..."></textarea>
+                </div>
+            `;
+
+            document.getElementById('reviewModal').style.display = 'block';
+        }
+
+        // Close review modal
+        function closeReviewModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+            currentSlip = null;
+        }
+
+        // Approve payment slip
+        async function approvePaymentSlip() {
+            if (!currentSlip) return;
+
+            const reviewNotes = document.getElementById('reviewNotes').value;
+            
+            try {
+                const response = await fetch(`/api/payment-slips/${currentSlip.id}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reviewedBy: 'Super Admin', // You can get this from session
+                        reviewNotes: reviewNotes
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccess('Payment slip approved successfully! Booking status updated to PAID.');
+                    closeReviewModal();
+                    refreshData();
+                } else {
+                    throw new Error('Failed to approve payment slip');
+                }
+            } catch (error) {
+                console.error('Error approving payment slip:', error);
+                showError('Failed to approve payment slip');
+            }
+        }
+
+        // Reject payment slip
+        async function rejectPaymentSlip() {
+            if (!currentSlip) return;
+
+            const reviewNotes = document.getElementById('reviewNotes').value;
+            
+            if (!reviewNotes.trim()) {
+                showError('Please provide review notes for rejection');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/payment-slips/${currentSlip.id}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reviewedBy: 'Super Admin', // You can get this from session
+                        reviewNotes: reviewNotes
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccess('Payment slip rejected successfully! Booking status updated to REJECTED.');
+                    closeReviewModal();
+                    refreshData();
+                } else {
+                    throw new Error('Failed to reject payment slip');
+                }
+            } catch (error) {
+                console.error('Error rejecting payment slip:', error);
+                showError('Failed to reject payment slip');
+            }
+        }
+
+        // Download payment slip
+        async function downloadSlip(slipId) {
+            try {
+                const response = await fetch(`/api/payment-slips/${slipId}/download`);
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = `payment-slip-${slipId}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    throw new Error('Failed to download payment slip');
+                }
+            } catch (error) {
+                console.error('Error downloading payment slip:', error);
+                showError('Failed to download payment slip');
+            }
+        }
+
+        // Refresh data
+        function refreshData() {
+            loadPaymentSlips();
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+            document.getElementById('paymentSlipsTable').style.display = show ? 'none' : 'table';
+        }
+
+        function showSuccess(message) {
+            // Simple alert for now - you can implement a better notification system
+            alert('✅ ' + message);
+        }
+
+        function showError(message) {
+            // Simple alert for now - you can implement a better notification system
+            alert('❌ ' + message);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reviewModal');
+            if (event.target == modal) {
+                closeReviewModal();
+            }
+        }
+    </script>
+</body>
+</html>
