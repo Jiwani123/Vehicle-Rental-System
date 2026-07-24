@@ -1,14 +1,14 @@
-# ** 🚗 Web-based Vehicle Rental System - JourneyMATE **
-###📘 Overview
+# ** Web-based Vehicle Rental System - JourneyMATE **
+### Overview
 
 The Vehicle Rental System is a full-stack web application designed to simplify the process of renting vehicles online.
 It allows users to register, browse available vehicles, make bookings, complete payments, and submit feedback or inquiries to the system administrators.
 
 The system is divided into six main management modules, ensuring scalability, modularity, and ease of maintenance.
 
-🧩 Major Management Modules
+ Major Management Modules
 
-1️⃣ User Management
+ User Management
 
 Handles all user-related operations including registration, login, authentication, and profile management.
 Features:
@@ -19,7 +19,7 @@ Admin and customer role separation
 
 Profile update and password change
 
-2️⃣ Vehicle Management
+ Vehicle Management
 
 Manages vehicle records in the system and provides data for booking and display.
 Features:
@@ -34,7 +34,7 @@ Attributes:
 
 Vehicle ID, Brand, Model, Type, Picture, Price per Day, Availability Status
 
-3️⃣ Booking Management
+ Booking Management
 
 Handles the entire vehicle booking lifecycle from reservation to completion.
 Features:
@@ -53,7 +53,7 @@ Attributes:
 
 Booking ID, Customer Name, Vehicle, Start Date, End Date, Total Amount, Status
 
-4️⃣ Payment Management
+ Payment Management
 
 Processes and records user payments for confirmed bookings.
 Features:
@@ -70,7 +70,7 @@ Attributes:
 
 Payment ID, Booking ID, Amount, Payment Date, Method, Status
 
-5️⃣ Feedback Management
+ Feedback Management
 
 Allows customers to share experiences or rate their rental service.
 Features:
@@ -85,7 +85,7 @@ Attributes:
 
 Feedback ID, User ID, Rating, Comment, Date
 
-6️⃣ Inquiry Management
+ Inquiry Management
 
 Handles communication between customers and system administrators.
 Features:
@@ -100,7 +100,7 @@ Attributes:
 
 Inquiry ID, User ID, Title, Description, Status, Created/Updated Date
 
-🧱 Database Schema (Simplified Overview)
+ Database Schema (Simplified Overview)
 
 Tables:
 
@@ -118,9 +118,9 @@ inquiries
 
 Each table is relationally linked using foreign keys, ensuring proper data integrity.
 
-⚙️ Technologies Used
+ Technologies Used
 
-🖥️ Backend
+ Backend
 
 Java Spring Boot
 
@@ -128,7 +128,7 @@ MySQL / PostgreSQL for database management
 
 Spring Security with JWT authentication
 
-🌐 Frontend
+ Frontend
 
 Javascript 
 
@@ -136,12 +136,12 @@ HTML
 
 TailwindCSS
 
-🧰 Tools
+ Tools
 
 Maven for dependency management
 
 
-🧰 Validations and Constraints
+ Validations and Constraints
 
 All required fields must be filled before submission.
 
@@ -153,7 +153,7 @@ Payments must be tied to valid booking records.
 
 Feedback and inquiries require valid user IDs.
 
-🚀 Future Enhancements
+ Future Enhancements
 
 Add real-time notifications for booking confirmation.
 
@@ -165,13 +165,11 @@ Add email/SMS notifications for booking and inquiry updates.
 
 Mobile app version.
 
-👨‍💻 Author & Credits
+ Author & Credits
 
 Project Name: Vehicle Rental System - JourneyMATE
 Developed by: SLIIT 2025-Y2-S1-MLB-B9G2-09
 Date: October 2025
 Language: Java (Spring Boot) & HTML,CSS,Java Script
-
-🏁 License
 
 This project is open-source and available under the MIT License.
