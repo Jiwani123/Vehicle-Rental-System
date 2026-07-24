@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — JourneyMATE Premium Vehicle Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --accent-dark: #0891b2;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: linear-gradient(135deg, rgba(97, 98, 101, 0.551) 0%, rgba(38, 39, 39, 0.578) 100%),
+                        url('https://images.unsplash.com/photo-1630165356623-266076eaceb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat fixed;
+            
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1.5" fill="rgba(255,255,255,0.08)"/></svg>');
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-container {
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+
+        .login-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .switch-auth {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            margin-top: 1rem;
+        }
+
+        .switch-auth a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .switch-auth a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .login-container {
+                margin: 0 10px;
+            }
+            
+            .login-header {
+                padding: 2rem 1.5rem 1.5rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                JourneyMATE
+            </div>
+            <p class="login-subtitle">Sign in to your account</p>
+        </div>
+        
+        <div class="login-body">
+            <div id="loginAlert" class="alert">
+                <i class="fas fa-info-circle"></i>
+                Redirecting to main login page...
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="loginUsername" class="form-input" 
+                           placeholder="Enter your username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="loginPassword" class="form-input" 
+                           placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign In</span>
+                </button>
+            </form>
+            
+            <button onclick="redirectToMainPage()" class="btn btn-secondary">
+                <i class="fas fa-home"></i>
+                Go to Main Page
+            </button>
+            
+            <div class="switch-auth">
+                <p>Don't have an account? <a href="#" onclick="redirectToMainPage()">Create one here</a></p>
+            </div>
+            
+            <div class="footer-text">
+                <p>&copy; 2025 JourneyMATE. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show info alert immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            showAlert('This page will redirect you to the main login. Please use the main page for authentication.', 'info');
+            
+            // Auto-redirect after 3 seconds
+            setTimeout(() => {
+                redirectToMainPage();
+            }, 3000);
+        });
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!username || !password) {
+                showAlert('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<div class="loading"></div> Signing in...';
+            
+            try {
+                showAlert('Authenticating your credentials...', 'info');
+                
+                const response = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        username: username, 
+                        password: password 
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        showAlert('Login successful! Redirecting to dashboard...', 'success');
+                        
+                        // Store user data
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('role', data.role);
+                        
+                        // Redirect based on role
+                        setTimeout(() => {
+                            switch(data.role) {
+                                case 'vehicle-admin':
+                                    window.location.href = '/admin/vehicle/vehicle-admin-home.html';
+                                    break;
+                                case 'super-admin':
+                                    window.location.href = '/admin/super/super-admin-dashboard.html';
+                                    break;
+                                case 'admin':
+                                    window.location.href = '/admin-home.html';
+                                    break;
+                                case 'USER':
+                                case 'user':
+                                default:
+                                    window.location.href = '/user-home.html';
+                                    break;
+                            }
+                        }, 1500);
+                    } else {
+                        showAlert(data.message || 'Login failed. Please check your credentials.', 'error');
+                    }
+                } else if (response.status === 401) {
+                    showAlert('Invalid username or password. Please try again.', 'error');
+                } else {
+                    showAlert(`Server error (${response.status}). Please try again later.`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('Connection error. Please check your internet connection and try again.', 'error');
+            } finally {
+                // Re-enable button
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = `
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign In</span>
+                `;
+            }
+        });
+
+        function redirectToMainPage() {
+            showAlert('Redirecting to main page...', 'info');
+            setTimeout(() => {
+                window.location.href = '/index.html';
+            }, 1000);
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('loginAlert');
+            const iconMap = {
+                success: 'check-circle',
+                error: 'exclamation-triangle',
+                info: 'info-circle'
+            };
+            
+            alert.innerHTML = `
+                <i class="fas fa-${iconMap[type]}"></i>
+                ${message}
+            `;
+            alert.className = `alert alert-${type} show`;
+        }
+
+        // Clear alert when user starts typing
+        document.getElementById('loginUsername').addEventListener('input', () => {
+            document.getElementById('loginAlert').classList.remove('show');
+        });
+        
+        document.getElementById('loginPassword').addEventListener('input', () => {
+            document.getElementById('loginAlert').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

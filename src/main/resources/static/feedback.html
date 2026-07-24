@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback - JourneyMATE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Design System */
+        :root {
+            --primary-color: #667eea;
+            --primary-dark: #5a67d8;
+            --primary-light: #e6f3ff;
+            --secondary-color: #764ba2;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --danger-color: #f56565;
+            --info-color: #4299e1;
+            
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --text-light: #a0aec0;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --bg-gray: #edf2f7;
+            --bg-overlay: rgba(0, 0, 0, 0.6);
+            
+            --border-color: #e2e8f0;
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+            
+            --transition: all 0.3s ease;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, rgb(247, 250, 252) 0%, rgb(237, 242, 247) 100%),
+                        url('https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop') center/cover no-repeat fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(102,126,234,0.05)"/><circle cx="75" cy="75" r="2" fill="rgba(118,75,162,0.05)"/></svg>');
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Navigation */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #2563eb;
+            background: #f1f5f9;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #2563eb;
+            border-radius: 50%;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #334155;
+            border: 2px solid #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            background: #f8fafc;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%),
+                        url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Feedback Grid */
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feedback-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .card-icon.create-icon {
+            background: linear-gradient(135deg, var(--success-color), #38a169);
+        }
+
+        .card-icon.list-icon {
+            background: linear-gradient(135deg, var(--info-color), #3182ce);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Forms */
+        .feedback-form {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label i {
+            color: var(--primary-color);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--bg-primary);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2rem;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .star-rating input:checked ~ label {
+            color: #fbbf24;
+        }
+
+        .rating-label {
+            margin-left: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .stars i {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+
+        .stars i.empty {
+            color: #e2e8f0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-gray);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #38a169);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #e53e3e);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Feedback List */
+        .feedback-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .feedback-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .feedback-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feedback-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-subject {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .feedback-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .feedback-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .feedback-message {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+                .feedback-id {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feedback-status {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .feedback-status.status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .feedback-status.status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .feedback-status.status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .feedback-author {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Loading and Empty States */
+        .loading,
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .loading i,
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state h3 {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-overlay);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius-xl);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .close:hover {
+            color: var(--text-secondary);
+            background: var(--bg-gray);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            z-index: 1100;
+            animation: toastSlideIn 0.3s ease-out;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--success-color), #38a169);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, var(--danger-color), #e53e3e);
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .feedback-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+            .feedback-form {
+                padding: 1rem;
+            }
+
+            .feedback-list {
+                padding: 1rem;
+            }
+
+            .feedback-item {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        .feedback-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .feedback-list::-webkit-scrollbar-track {
+            background: var(--bg-gray);
+            border-radius: 3px;
+        }
+
+        .feedback-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .feedback-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="/user-home.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="logo-text">JourneyMATE</span>
+            </a>
+
+            <nav class="nav">
+                <a href="/user-home.html" class="nav-link">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/user-bookings.html" class="nav-link">
+                    <i class="fas fa-calendar-check"></i> Bookings
+                </a>
+                <a href="/vehicle.html" class="nav-link">
+                    <i class="fas fa-car-side"></i> Vehicles
+                </a>
+                <a href="/feedback.html" class="nav-link active">
+                    <i class="fas fa-comment"></i> Feedback
+                </a>
+                <a href="/user-inquiries.html" class="nav-link">
+                    <i class="fas fa-life-ring"></i> Inquiries
+                </a>
+                <a href="/account-details.html" class="nav-link">
+                    <i class="fas fa-user-cog"></i> Account
+                </a>
+            </nav>
+
+            <button class="btn btn-outline" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="page-header">
+            <div class="container">
+                <h1><i class="fas fa-comments"></i> Customer Feedback</h1>
+                <p>Share your experience and view feedback from our community</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="feedback-grid">
+                <!-- Submit Feedback Card -->
+                <div class="feedback-card submit-card">
+                    <div class="card-header">
+                        <div class="card-icon create-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div>
+                            <h2 class="card-title">Submit Feedback</h2>
+                            <p class="card-description">Help us improve our service</p>
+                        </div>
+                    </div>
+
+                    <form id="feedbackForm" class="feedback-form">
+                        <div class="form-group">
+                            <label for="subject" class="form-label">
+                                <i class="fas fa-tag"></i>
+                                Subject
+                            </label>
+                            <input type="text" id="subject" name="subject" class="form-input" 
+                                   placeholder="Enter feedback subject..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-star"></i>
+                                Rating
+                            </label>
+                            <div class="star-rating">
+                                <input type="radio" id="star5" name="rating" value="5" required />
+                                <label for="star5"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4" />
+                                <label for="star4"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3" />
+                                <label for="star3"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2" />
+                                <label for="star2"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1" />
+                                <label for="star1"><i class="fas fa-star"></i></label>
+                                <span class="rating-label" id="ratingLabel">Select a rating</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">
+                                <i class="fas fa-comment"></i>
+                                Message
+                            </label>
+                            <textarea id="message" name="message" class="form-textarea" 
+                                      placeholder="Tell us about your experience..." rows="4" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Feedback
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feedback List Card -->
+                <div class="feedback-card list-card">
+                    <div class="card-header">
+                        <div class="card-icon list-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <h2 class="card-title">Customer Reviews</h2>
+                            <p class="card-description">See what our customers are saying about us</p>
+                        </div>
+                    </div>
+
+                    <div class="feedback-list" id="feedbackList">
+                        <div class="loading" id="loadingSpinner">
+                            <i class="fas fa-spinner"></i>
+                            <p>Loading feedback...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Feedbacks Card -->
+                <div class="feedback-card list-card">
+                    <div class="card-header">
+                        <div class="card-icon list-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div>
+                            <h2 class="card-title">My Feedbacks</h2>
+                            <p class="card-description">Manage your submitted feedback</p>
+                        </div>
+                    </div>
+
+                    <div class="feedback-list" id="myFeedbacksList">
+                        <div class="loading">
+                            <i class="fas fa-spinner"></i>
+                            <p>Loading your feedback...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Feedback Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-edit"></i> Edit Feedback
+                </h3>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+
+            <form id="editFeedbackForm">
+                <div class="form-group">
+                    <label class="form-label" for="editSubject">
+                        <i class="fas fa-tag"></i> Subject
+                    </label>
+                    <input type="text" id="editSubject" name="subject" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-star"></i> Rating
+                    </label>
+                    <div class="star-rating">
+                        <input type="radio" id="editStar5" name="rating" value="5" required />
+                        <label for="editStar5"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="editStar4" name="rating" value="4" />
+                        <label for="editStar4"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="editStar3" name="rating" value="3" />
+                        <label for="editStar3"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="editStar2" name="rating" value="2" />
+                        <label for="editStar2"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="editStar1" name="rating" value="1" />
+                        <label for="editStar1"><i class="fas fa-star"></i></label>
+                        <span class="rating-label" id="editRatingLabel">Select a rating</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="editMessage">
+                        <i class="fas fa-comment"></i> Message
+                    </label>
+                    <textarea id="editMessage" name="message" class="form-textarea" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Update Feedback
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let feedbacks = [];
+        let myFeedbacks = [];
+        let editingFeedbackId = null;
+        let currentUser = null;
+        let currentUserRole = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current user info
+            currentUser = localStorage.getItem('username');
+            currentUserRole = localStorage.getItem('role');
+            
+            loadPublicFeedbacks();
+            loadMyFeedbacks();
+            setupFormSubmission();
+            setupEditFormSubmission();
+            setupRatingListeners();
+        });
+
+        // Setup rating listeners
+        function setupRatingListeners() {
+            // Main form rating
+            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+            const ratingLabel = document.getElementById('ratingLabel');
+            
+            ratingInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const ratingTexts = {
+                        '1': '⭐ Poor',
+                        '2': '⭐⭐ Fair',
+                        '3': '⭐⭐⭐ Good',
+                        '4': '⭐⭐⭐⭐ Very Good',
+                        '5': '⭐⭐⭐⭐⭐ Excellent'
+                    };
+                    ratingLabel.textContent = ratingTexts[this.value] || 'Select a rating';
+                });
+            });
+
+            // Edit form rating
+            const editRatingInputs = document.querySelectorAll('#editFeedbackForm input[name="rating"]');
+            const editRatingLabel = document.getElementById('editRatingLabel');
+            
+            editRatingInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const ratingTexts = {
+                        '1': '⭐ Poor',
+                        '2': '⭐⭐ Fair',
+                        '3': '⭐⭐⭐ Good',
+                        '4': '⭐⭐⭐⭐ Very Good',
+                        '5': '⭐⭐⭐⭐⭐ Excellent'
+                    };
+                    editRatingLabel.textContent = ratingTexts[this.value] || 'Select a rating';
+                });
+            });
+        }
+
+        // Load public approved feedbacks (read-only)
+        async function loadPublicFeedbacks() {
+            try {
+                const response = await fetch('/api/feedbacks');
+                if (!response.ok) throw new Error('Failed to fetch public feedbacks');
+                
+                feedbacks = await response.json();
+                displayPublicFeedbacks(feedbacks);
+            } catch (error) {
+                console.error('Error loading public feedbacks:', error);
+                showError('Failed to load public feedbacks');
+            }
+        }
+
+        // Load user's own feedbacks (editable)
+        async function loadMyFeedbacks() {
+            if (!currentUser) {
+                displayMyFeedbacksEmptyState('Please log in to see your feedback history');
+                return;
+            }
+
+            try {
+                console.log('Loading feedbacks for user:', currentUser);
+                const response = await fetch('/api/feedbacks/my-feedbacks');
+                console.log('Feedback API Response Status:', response.status);
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        displayMyFeedbacksEmptyState('Please log in to see your feedback history');
+                        return;
+                    }
+                    throw new Error(`Failed to fetch your feedbacks. Status: ${response.status}`);
+                }
+                
+                myFeedbacks = await response.json();
+                console.log('Feedbacks loaded:', myFeedbacks.length);
+                displayMyFeedbacks(myFeedbacks);
+            } catch (error) {
+                console.error('Error loading my feedbacks:', error);
+                showError(`Failed to load your feedbacks. ${error.message}`);
+                displayMyFeedbacksEmptyState('Failed to load your feedback history');
+            }
+        }
+
+        // Display public feedbacks (read-only)
+        function displayPublicFeedbacks(feedbackList) {
+            const container = document.getElementById('feedbackList');
+            
+            if (feedbackList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h3>No approved feedback yet</h3>
+                        <p>Be the first to share your experience!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const feedbacksHTML = feedbackList.map(feedback => `
+                <div class="feedback-item">
+                    <div class="feedback-id">#${feedback.id}</div>
+                    
+                    <div class="feedback-header">
+                        <div>
+                            <div class="feedback-subject">${escapeHtml(feedback.subject)}</div>
+                            ${feedback.rating ? `
+                                <div class="rating-display">
+                                    <div class="stars">
+                                        ${generateStars(feedback.rating)}
+                                    </div>
+                                    <span style="color: #fbbf24; font-weight: 600;">${feedback.rating}/5</span>
+                                </div>
+                            ` : ''}
+                            <div class="feedback-author">
+                                <i class="fas fa-user"></i>
+                                ${escapeHtml(feedback.userName || 'Anonymous')}
+                            </div>
+                            <div class="feedback-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                ${formatDate(feedback.createdAt)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feedback-message">
+                        ${escapeHtml(feedback.message)}
+                    </div>
+                    
+                    ${feedback.adminReply ? `
+                        <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(to right, #f0f9ff, #e0f2fe); border-left: 4px solid #0ea5e9; border-radius: 6px;">
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; color: #0369a1; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-reply"></i> Admin Response
+                            </div>
+                            <div style="color: #334155; line-height: 1.6; margin-bottom: 0.5rem;">
+                                ${escapeHtml(feedback.adminReply)}
+                            </div>
+                            <div style="font-size: 0.875rem; color: #64748b;">
+                                <i class="fas fa-user-shield"></i> ${escapeHtml(feedback.repliedBy || 'Admin')} • ${formatDate(feedback.repliedAt)}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            container.innerHTML = feedbacksHTML;
+        }
+
+        // Display user's own feedbacks (editable)
+        function displayMyFeedbacks(feedbackList) {
+            const container = document.getElementById('myFeedbacksList');
+            
+            if (feedbackList.length === 0) {
+                displayMyFeedbacksEmptyState();
+                return;
+            }
+
+            const feedbacksHTML = feedbackList.map(feedback => {
+                // Determine if user can edit this feedback
+                const canEdit = canUserModifyFeedback(feedback);
+                
+                return `
+                    <div class="feedback-item">
+                        <div class="feedback-id">#${feedback.id}</div>
+                        <div class="feedback-status status-${feedback.status ? feedback.status.toLowerCase() : 'unknown'}">
+                            ${feedback.status || 'UNKNOWN'}
+                        </div>
+                        
+                        <div class="feedback-header">
+                            <div>
+                                <div class="feedback-subject">${escapeHtml(feedback.subject)}</div>
+                                ${feedback.rating ? `
+                                    <div class="rating-display">
+                                        <div class="stars">
+                                            ${generateStars(feedback.rating)}
+                                        </div>
+                                        <span style="color: #fbbf24; font-weight: 600;">${feedback.rating}/5</span>
+                                    </div>
+                                ` : ''}
+                                <div class="feedback-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    ${formatDate(feedback.createdAt)}
+                                </div>
+                            </div>
+                            ${canEdit ? `
+                                <div class="feedback-actions">
+                                    <button class="btn btn-primary btn-small" onclick="editFeedback(${feedback.id})">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteFeedback(${feedback.id})">
+                                        <i class="fas fa-trash"></i>
+                                        Delete
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="feedback-message">
+                            ${escapeHtml(feedback.message)}
+                        </div>
+                        
+                        ${feedback.adminReply ? `
+                            <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(to right, #f0fdf4, #dcfce7); border-left: 4px solid #10b981; border-radius: 6px;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem; color: #047857; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-reply"></i> Admin Response
+                                </div>
+                                <div style="color: #334155; line-height: 1.6; margin-bottom: 0.5rem;">
+                                    ${escapeHtml(feedback.adminReply)}
+                                </div>
+                                <div style="font-size: 0.875rem; color: #64748b;">
+                                    <i class="fas fa-user-shield"></i> ${escapeHtml(feedback.repliedBy || 'Admin')} • ${formatDate(feedback.repliedAt)}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = feedbacksHTML;
+        }
+
+        // Display empty state for my feedbacks
+        function displayMyFeedbacksEmptyState(message = "No feedback found") {
+            const container = document.getElementById('myFeedbacksList');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-comments"></i>
+                    <h3>${message}</h3>
+                    <p>Your feedback history will appear here</p>
+                </div>
+            `;
+        }
+
+        // Check if current user can modify a feedback
+        function canUserModifyFeedback(feedback) {
+            if (!currentUser) return false;
+            
+            // Admins can modify any feedback
+            if (currentUserRole && (currentUserRole === 'Admin' || currentUserRole === 'super-admin' || currentUserRole === 'vehicle-admin')) {
+                return true;
+            }
+            
+            // Users can only modify their own feedback
+            return currentUser === feedback.userName;
+        }
+
+        // Setup form submission for creating feedback
+        function setupFormSubmission() {
+            document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const feedbackData = {
+                    subject: formData.get('subject').trim(),
+                    message: formData.get('message').trim(),
+                    rating: parseInt(formData.get('rating'))
+                };
+
+                if (!feedbackData.subject || !feedbackData.message || !feedbackData.rating) {
+                    showError('Please fill in all fields including rating');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/feedbacks', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(feedbackData)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to submit feedback');
+                    }
+
+                    showSuccess('Feedback submitted successfully! It is now visible to everyone.');
+                    this.reset();
+                    document.getElementById('ratingLabel').textContent = 'Select a rating';
+                    loadMyFeedbacks(); // Reload user's feedbacks
+                    loadPublicFeedbacks(); // Reload public feedbacks to show the new one
+                } catch (error) {
+                    console.error('Error submitting feedback:', error);
+                    showError('Failed to submit feedback');
+                }
+            });
+        }
+
+        // Setup edit form submission
+        function setupEditFormSubmission() {
+            document.getElementById('editFeedbackForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!editingFeedbackId) return;
+
+                const formData = new FormData(this);
+                const feedbackData = {
+                    subject: formData.get('subject').trim(),
+                    message: formData.get('message').trim(),
+                    rating: parseInt(formData.get('rating'))
+                };
+
+                if (!feedbackData.subject || !feedbackData.message || !feedbackData.rating) {
+                    showError('Please fill in all fields including rating');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/feedbacks/${editingFeedbackId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(feedbackData)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to update feedback');
+                    }
+
+                    showSuccess('Feedback updated successfully!');
+                    closeEditModal();
+                    loadMyFeedbacks();
+                    loadPublicFeedbacks(); // Reload in case it was approved
+                } catch (error) {
+                    console.error('Error updating feedback:', error);
+                    showError('Failed to update feedback');
+                }
+            });
+        }
+
+        // Edit feedback
+        function editFeedback(feedbackId) {
+            const feedback = myFeedbacks.find(f => f.id === feedbackId);
+            if (!feedback) return;
+
+            // Check if user can edit this feedback
+            if (!canUserModifyFeedback(feedback)) {
+                showError('You can only edit your own feedback');
+                return;
+            }
+
+            editingFeedbackId = feedbackId;
+            document.getElementById('editSubject').value = feedback.subject;
+            document.getElementById('editMessage').value = feedback.message;
+            
+            // Set the rating
+            const ratingInput = document.querySelector(`#editFeedbackForm input[name="rating"][value="${feedback.rating}"]`);
+            if (ratingInput) {
+                ratingInput.checked = true;
+            }
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editingFeedbackId = null;
+        }
+
+        // Delete feedback
+        async function deleteFeedback(feedbackId) {
+            const feedback = myFeedbacks.find(f => f.id === feedbackId);
+            if (!feedback) return;
+
+            // Check if user can delete this feedback
+            if (!canUserModifyFeedback(feedback)) {
+                showError('You can only delete your own feedback');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete this feedback? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/feedbacks/${feedbackId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete feedback');
+                }
+
+                showSuccess('Feedback deleted successfully!');
+                loadMyFeedbacks();
+                loadPublicFeedbacks(); // Reload in case it was approved
+            } catch (error) {
+                console.error('Error deleting feedback:', error);
+                showError(error.message || 'Failed to delete feedback');
+            }
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown date';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            showToast(message, 'success');
+        }
+
+        function showError(message) {
+            showToast(message, 'error');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        }
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeEditModal();
+            }
+        });
+    </script>
+</body>
+</html>

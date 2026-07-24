@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyMATE - Super Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 2rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            border-left-color: var(--primary-dark);
+        }
+
+        .nav-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .nav-badge {
+            background: var(--error);
+            color: var(--white);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .content-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .stat-card.error {
+            border-left-color: var(--error);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);
+            color: var(--white);
+        }
+
+        .stat-icon.error {
+            background: linear-gradient(135deg, var(--error) 0%, #f87171 100%);
+            color: var(--white);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--error);
+        }
+
+        /* Recent Activity Section */
+        .activity-section {
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .activity-list {
+            padding: 1rem 2rem 2rem;
+        }
+
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-left: auto;
+        }
+
+        /* System Health Indicator */
+        .health-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .health-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .health-dot.critical {
+            background: var(--error);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error States */
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .content-header {
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">JourneyMATE</div>
+            <div class="sidebar-subtitle">Super Admin Portal</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <a href="super-admin-dashboard.html" class="nav-item active">
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Management</div>
+                <a href="super-admin-users.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </a>
+                <a href="super-admin-feedback.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    Feedback Management
+                </a>
+                <a href="super-admin-inquiries.html" class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    Inquiries
+                    <span class="nav-badge" id="inquiryBadge">0</span>
+                </a>
+                <a href="super-admin-payments.html" class="nav-item">
+                    <i class="fas fa-credit-card"></i>
+                    Payment Management
+                    <span class="nav-badge" id="paymentBadge">0</span>
+                </a>
+                <a href="super-admin-reports.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Reports
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">System</div>
+                <a href="#" class="nav-item" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                </a>
+                <a href="#" class="nav-item" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    Export
+                </a>
+                <a href="../../index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div>
+                <h1 class="header-title">Dashboard</h1>
+                <p class="header-subtitle">Welcome to the Super Admin Dashboard</p>
+            </div>
+            <div class="header-actions">
+                <div class="health-indicator">
+                    <div class="health-dot" id="healthDot"></div>
+                    <span id="healthStatus">System Healthy</span>
+                </div>
+                <button class="btn btn-primary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Statistics -->
+        <div class="dashboard-grid" id="dashboardGrid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Total Users</div>
+                    <div class="stat-icon primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalUsers">0</div>
+                <div class="stat-label">Registered Users</div>
+                <div class="stat-change positive" id="usersChange">Loading...</div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="stat-header">
+                    <div class="stat-title">Total Bookings</div>
+                    <div class="stat-icon success">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalBookings">0</div>
+                <div class="stat-label">All Time Bookings</div>
+                <div class="stat-change positive" id="bookingsChange">Loading...</div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="stat-header">
+                    <div class="stat-title">Total Vehicles</div>
+                    <div class="stat-icon warning">
+                        <i class="fas fa-car"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalVehicles">0</div>
+                <div class="stat-label">Fleet Size</div>
+                <div class="stat-change positive" id="vehiclesChange">Loading...</div>
+            </div>
+
+            <div class="stat-card error">
+                <div class="stat-header">
+                    <div class="stat-title">Pending Inquiries</div>
+                    <div class="stat-icon error">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalInquiries">0</div>
+                <div class="stat-label">Needs Attention</div>
+                <div class="stat-change negative" id="inquiriesChange">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Activity</h2>
+                <button class="btn btn-secondary" onclick="viewAllActivities()">
+                    View All
+                </button>
+            </div>
+            <div class="activity-list" id="activityList">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let dashboardData = null;
+        let activityData = null;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            checkSystemHealth();
+            // Refresh data every 5 minutes
+            setInterval(loadDashboardData, 300000);
+            setInterval(checkSystemHealth, 60000);
+        });
+
+        // Load dashboard summary data
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/super-admin/dashboard/summary');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                dashboardData = data;
+                updateDashboardCards(data);
+                await loadRecentActivities();
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showError('Failed to load dashboard data: ' + error.message);
+            }
+        }
+
+        // Update dashboard cards with data
+        function updateDashboardCards(data) {
+            document.getElementById('totalUsers').textContent = data.totalUsers || 0;
+            document.getElementById('totalBookings').textContent = data.totalBookings || 0;
+            document.getElementById('totalVehicles').textContent = data.totalVehicles || 0;
+            document.getElementById('totalInquiries').textContent = data.totalInquiries || 0;
+
+            // Update badge
+            const badge = document.getElementById('inquiryBadge');
+            if (badge) {
+                badge.textContent = data.totalInquiries || 0;
+                badge.style.display = (data.totalInquiries || 0) > 0 ? 'inline-block' : 'none';
+            }
+
+            // Update change indicators (placeholder for now)
+            document.getElementById('usersChange').textContent = 'System Active';
+            document.getElementById('bookingsChange').textContent = 'System Active';
+            document.getElementById('vehiclesChange').textContent = 'System Active';
+            document.getElementById('inquiriesChange').textContent = 'System Active';
+        }
+
+        // Load recent activities
+        async function loadRecentActivities() {
+            try {
+                const response = await fetch('/api/super-admin/dashboard/recent-activities');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                activityData = data;
+                updateActivityList(data);
+
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                const activityList = document.getElementById('activityList');
+                activityList.innerHTML = `<div class="error-message">Failed to load activities: ${error.message}</div>`;
+            }
+        }
+
+        // Update activity list
+        function updateActivityList(data) {
+            const activityList = document.getElementById('activityList');
+            
+            if (!data.recentBookingsCount && !data.recentUsersCount && !data.recentInquiriesCount) {
+                activityList.innerHTML = `
+                    <div class="activity-item">
+                        <div class="activity-icon primary">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">System Running</div>
+                            <div class="activity-description">All systems operational</div>
+                        </div>
+                        <div class="activity-time">Now</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let activities = [];
+
+            if (data.recentBookingsCount > 0) {
+                activities.push({
+                    icon: 'fas fa-calendar-check',
+                    iconClass: 'success',
+                    title: `${data.recentBookingsCount} New Bookings`,
+                    description: 'Recent booking activity',
+                    time: 'Today'
+                });
+            }
+
+            if (data.recentUsersCount > 0) {
+                activities.push({
+                    icon: 'fas fa-user-plus',
+                    iconClass: 'primary',
+                    title: `${data.recentUsersCount} New Users`,
+                    description: 'Recent user registrations',
+                    time: 'Today'
+                });
+            }
+
+            if (data.recentInquiriesCount > 0) {
+                activities.push({
+                    icon: 'fas fa-question-circle',
+                    iconClass: 'warning',
+                    title: `${data.recentInquiriesCount} New Inquiries`,
+                    description: 'Customer inquiries received',
+                    time: 'Today'
+                });
+            }
+
+            const activityHtml = activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon ${activity.iconClass}">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-description">${activity.description}</div>
+                    </div>
+                    <div class="activity-time">${activity.time}</div>
+                </div>
+            `).join('');
+
+            activityList.innerHTML = activityHtml;
+        }
+
+        // Check system health
+        async function checkSystemHealth() {
+            try {
+                const response = await fetch('/api/super-admin/dashboard/system-health');
+                const data = await response.json();
+                
+                const healthDot = document.getElementById('healthDot');
+                const healthStatus = document.getElementById('healthStatus');
+
+                if (data.status === 'HEALTHY') {
+                    healthDot.className = 'health-dot';
+                    healthStatus.textContent = 'System Healthy';
+                } else {
+                    healthDot.className = 'health-dot critical';
+                    healthStatus.textContent = 'System Issues';
+                }
+
+            } catch (error) {
+                console.error('Error checking system health:', error);
+                const healthDot = document.getElementById('healthDot');
+                const healthStatus = document.getElementById('healthStatus');
+                healthDot.className = 'health-dot critical';
+                healthStatus.textContent = 'Health Check Failed';
+            }
+        }
+
+        // Refresh data
+        function refreshData() {
+            loadDashboardData();
+            checkSystemHealth();
+        }
+
+        // Export data
+        async function exportData() {
+            try {
+                const response = await fetch('/api/super-admin/reports/export/SYSTEM_OVERVIEW');
+                const data = await response.json();
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], {
+                    type: 'application/json'
+                });
+                
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'dashboard-export-' + new Date().toISOString().split('T')[0] + '.json';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('Failed to export data: ' + error.message);
+            }
+        }
+
+        // View all activities
+        function viewAllActivities() {
+            window.location.href = 'super-admin-inquiries.html';
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorHtml = `<div class="error-message">${message}</div>`;
+            const dashboardGrid = document.getElementById('dashboardGrid');
+            dashboardGrid.insertAdjacentHTML('beforebegin', errorHtml);
+        }
+
+        // Mobile menu toggle (for future implementation)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

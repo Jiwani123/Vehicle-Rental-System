@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* --- General Styling & Theme --- */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --bg-color: #1a1a2e;
+            --surface-color: #24243e;
+            --text-color: #e0e0e0;
+            --border-color: #4a4a6a;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: url('https://images.unsplash.com/photo-1533106418989-88406e768207?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* --- Main Container & Cards --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1, h2 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card {
+            background: rgba(36, 36, 62, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- Form Styling --- */
+        #vehicle-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a2e;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        /* --- Custom Toggle Switch --- */
+        .switch-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-top: 5px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--secondary-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--success-color);
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- Button Styling --- */
+        .form-buttons {
+            grid-column: 1 / -1; /* Span all columns */
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button.btn-save {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        button.btn-save:hover { background-color: #0069d9; }
+
+        button.btn-new {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        button.btn-new:hover { background-color: #5a6268; }
+
+        /* --- Table Styling --- */
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background: rgba(0, 123, 255, 0.2);
+            font-weight: 600;
+            color: #fff;
+        }
+        tbody tr {
+            background-color: var(--surface-color);
+            transition: background-color 0.3s;
+            opacity: 0; /* For fade-in animation */
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        tbody tr:hover {
+            background-color: #3a3a5a;
+        }
+
+        /* Table Action Buttons */
+        .actions button {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            color: white;
+        }
+        button.edit { background-color: var(--success-color); }
+        button.edit:hover { background-color: #218838; }
+        button.del { background-color: var(--danger-color); }
+        button.del:hover { background-color: #c82333; }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+        .toast.show {
+            opacity: 1;
+            bottom: 30px;
+        }
+        .toast.success { background-color: var(--success-color); }
+        .toast.error { background-color: var(--danger-color); }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><i class="fa-solid fa-car-side"></i> Vehicle Management Dashboard</h1>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2 id="form-title">Add New Vehicle</h2>
+            <form id="vehicle-form">
+                <input type="hidden" id="vid" />
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <input id="brand" required />
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <input id="model" required />
+                </div>
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <input id="type" required />
+                </div>
+                <div class="form-group">
+                    <label for="price">Price/day ($):</label>
+                    <input id="price" type="number" step="0.01" required />
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Image URL:</label>
+                    <input id="imageUrl" type="text" placeholder="https://..." />
+                </div>
+                <div class="switch-container">
+                    <label for="available">Available:</label>
+                    <label class="switch">
+                        <input id="available" type="checkbox" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-save" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i><span>Save</span></button>
+                    <button type="button" id="resetBtn" class="btn-new"><i class="fa-solid fa-plus"></i>New</button>
+                </div>
+            </form>
+        </div>
+
+
+    </main>
+</div>
+
+<script>
+    const apiBase = '/api/vehicles'; // NOTE: This is a placeholder. For a live demo, this needs to point to a real backend.
+    const form = document.getElementById('vehicle-form');
+    const formTitle = document.getElementById('form-title');
+    const saveBtn = document.getElementById('saveBtn');
+    const saveBtnText = saveBtn.querySelector('span');
+    const saveBtnIcon = saveBtn.querySelector('i');
+
+    // --- Mock API for demonstration without a backend (used as fallback) ---
+    let mockDb = [
+        {id: 1, brandName: 'Toyota', modelName: 'Camry', vehicleType: 'Sedan', available: true, rentalPricePerDay: 55.00},
+        {id: 2, brandName: 'Honda', modelName: 'CR-V', vehicleType: 'SUV', available: false, rentalPricePerDay: 70.00},
+        {id: 3, brandName: 'Ford', modelName: 'Mustang', vehicleType: 'Coupe', available: true, rentalPricePerDay: 95.50}
+    ];
+    let nextId = 4;
+
+    const mockFetch = (url, options = {}) => {
+        return new Promise((resolve) => {
+            setTimeout(() => { // Simulate network delay
+                const urlParts = url.split('/');
+                const id = parseInt(urlParts[urlParts.length - 1]);
+
+                if (options.method === 'POST') {
+                    const newVehicle = { ...JSON.parse(options.body), id: nextId++ };
+                    mockDb.push(newVehicle);
+                    resolve({ ok: true, json: () => Promise.resolve(newVehicle) });
+                } else if (options.method === 'PUT') {
+                    const updatedVehicle = JSON.parse(options.body);
+                    mockDb = mockDb.map(v => v.id === id ? { ...updatedVehicle, id } : v);
+                    resolve({ ok: true, json: () => Promise.resolve(mockDb.find(v => v.id === id)) });
+                } else if (options.method === 'DELETE') {
+                    mockDb = mockDb.filter(v => v.id !== id);
+                    resolve({ ok: true });
+                } else if (id) { // GET by ID
+                    const vehicle = mockDb.find(v => v.id === id);
+                    resolve({ ok: true, json: () => Promise.resolve(vehicle) });
+                } else { // GET all
+                    resolve({ ok: true, json: () => Promise.resolve(mockDb) });
+                }
+            }, 500);
+        });
+    };
+    // --- End Mock API ---
+
+    // Helper to try real fetch and fall back to mockFetch when offline
+    // Adds credentials by default and lets callers check response.status for auth errors
+    async function safeFetch(url, options = {}){
+        options.credentials = options.credentials || 'same-origin';
+        try{
+            const res = await fetch(url, options);
+            // don't throw here - let caller inspect res.status so we can avoid browser auth popups
+            if (res.ok) return res;
+            // If server returned 401/403, return the response so callers can show inline UI instead of browser popup
+            return res;
+        }catch(err){
+            console.warn('Real fetch failed, falling back to mock:', err.message);
+            return mockFetch(url, options);
+        }
+    }
+
+    /**
+     * Shows a toast notification message.
+     * @param {string} message The message to display.
+     * @param {string} type 'success' or 'error'.
+     */
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Trigger the animation
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        // Hide and remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove());
+        }, 3000);
+    }
+
+
+    async function fetchVehicles(){
+        try {
+            const res = await safeFetch(apiBase);
+            if (!res.ok) throw new Error("Failed to fetch vehicles.");
+            const data = await res.json();
+            const tbody = document.querySelector('#vehicles-table tbody');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No vehicles found.</td></tr>';
+                return;
+            }
+            data.forEach(v => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${v.id ?? ''}</td>
+                <td>${v.brandName ?? ''}</td>
+                <td>${v.modelName ?? ''}</td>
+                <td>${v.vehicleType ?? ''}</td>
+                <td><span style="color: ${v.available ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight: bold;">${v.available ? 'Yes' : 'No'}</span></td>
+                <td>$${(v.rentalPricePerDay ?? 0).toFixed(2)}</td>
+                <td class="actions">
+                    <button data-id="${v.id}" class="edit"><i class="fa-solid fa-pencil"></i></button>
+                    <button data-id="${v.id}" class="del"><i class="fa-solid fa-trash-can"></i></button>
+                </td>
+            `;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            showToast(error.message, 'error');
+        }
+    }
+
+    function resetForm(){
+        form.reset(); // More efficient way to reset form fields
+        document.getElementById('vid').value = '';
+        formTitle.textContent = 'Add New Vehicle';
+        saveBtnText.textContent = 'Save';
+        saveBtnIcon.className = 'fa-solid fa-floppy-disk';
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const id = document.getElementById('vid').value;
+        const payload = {
+            brandName: document.getElementById('brand').value,
+            modelName: document.getElementById('model').value,
+            vehicleType: document.getElementById('type').value,
+            available: document.getElementById('available').checked,
+            rentalPricePerDay: parseFloat(document.getElementById('price').value)
+        };
+
+        try {
+            const url = id ? `${apiBase}/${id}` : apiBase;
+            const method = id ? 'PUT' : 'POST';
+
+            const res = await safeFetch(url, { // try real backend first
+                method: method,
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            // Handle authentication/authorization errors explicitly to avoid any browser login popups
+            if (res.status === 401 || res.status === 403) {
+                showToast('Authentication required. Please sign in at /login.html', 'error');
+                return;
+            }
+
+            if (res.ok) {
+                showToast(`Vehicle ${id ? 'updated' : 'added'} successfully!`, 'success');
+                resetForm();
+                await fetchVehicles();
+            } else {
+                // Try to get error message from server
+                let msg = 'Failed to save vehicle.';
+                try { const body = await res.json(); if (body && body.message) msg = body.message; } catch(_){}
+                showToast(msg, 'error');
+            }
+        } catch(error) {
+            showToast(error.message, 'error');
+        }
+    });
+
+    document.querySelector('#vehicles-table tbody').addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('.edit');
+        const delBtn = e.target.closest('.del');
+
+        if (editBtn) {
+            const id = editBtn.dataset.id;
+            try {
+                const res = await safeFetch(`${apiBase}/${id}`);
+                if (!res.ok) throw new Error("Could not find vehicle data.");
+                const v = await res.json();
+
+                document.getElementById('vid').value = v.id;
+                document.getElementById('brand').value = v.brandName;
+                document.getElementById('model').value = v.modelName;
+                document.getElementById('type').value = v.vehicleType;
+                document.getElementById('available').checked = v.available;
+                document.getElementById('price').value = v.rentalPricePerDay;
+
+                formTitle.textContent = `Editing Vehicle #${v.id}`;
+                saveBtnText.textContent = 'Update';
+                saveBtnIcon.className = 'fa-solid fa-arrows-rotate';
+                window.scrollTo(0, 0); // Scroll to top to see the form
+            } catch(error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        if (delBtn) {
+            const id = delBtn.dataset.id;
+            if (confirm('Are you sure you want to delete vehicle #' + id + '?')) {
+                try {
+                    const res = await safeFetch(`${apiBase}/${id}`, {method:'DELETE'});
+                    if (res.status === 401 || res.status === 403) { showToast('Authentication required. Please sign in at /login.html', 'error'); return; }
+                    if (!res.ok) throw new Error("Failed to delete vehicle.");
+                    showToast('Vehicle deleted!', 'success');
+                    await fetchVehicles();
+                } catch (error) {
+                    showToast(error.message, 'error');
+                }
+            }
+        }
+    });
+
+    // Initial load
+    fetchVehicles();
+</script>1
+</body>
+</html>

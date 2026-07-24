@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Listings</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables for Easy Theming --- */
+        :root {
+            --primary-blue: #3b82f6;
+            --light-blue: #e0e7ff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-color: #f9fafb;
+            --border-color: #e5e7eb;
+            --white: #ffffff;
+            --status-available-bg: #dcfce7;
+            --status-available-text: #166534;
+            --status-rented-bg: #e0e7ff;
+            --status-rented-text: #3730a3;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* --- Global Styles & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* --- Header & View Controls --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-controls span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .view-controls button {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .view-controls button.active {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        /* --- Vehicle Grid Layout --- */
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* --- Vehicle Card Styling --- */
+        .vehicle-card {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .vehicle-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Makes the card content take up remaining space */
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-right: 16px;
+        }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 999px; /* Pill shape */
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .status.available {
+            background-color: var(--status-available-bg);
+            color: var(--status-available-text);
+        }
+
+        .status.rented {
+            background-color: var(--status-rented-bg);
+            color: var(--status-rented-text);
+        }
+
+        .vehicle-type {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .vehicle-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-item i {
+            color: var(--primary-blue);
+        }
+
+        p.description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-top: auto; /* Pushes the button to the bottom */
+            margin-bottom: 20px;
+        }
+
+        .btn-details {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-details:hover {
+            background-color: #2563eb;
+        }
+
+        /* --- List View Styling --- */
+        .vehicle-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .vehicle-grid.list-view .vehicle-card {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .vehicle-grid.list-view .vehicle-card img {
+            width: 250px;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .vehicle-grid.list-view .card-content {
+            padding: 24px;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .vehicle-grid.list-view .vehicle-card {
+                flex-direction: column;
+            }
+            .vehicle-grid.list-view .vehicle-card img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+        @media (max-width: 480px) {
+            .vehicle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header style="background:white;padding:12px;border-bottom:1px solid #eef2f7">
+        <div style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:6px 24px">
+            <div style="display:flex;align-items:center;gap:12px">
+                <button id="backBtn" style="background:transparent;border:none;cursor:pointer;font-size:16px">← Back</button>
+                <a href="/" style="font-weight:700;color:#0f172a;text-decoration:none">RentEasy</a>
+            </div>
+            <nav style="display:flex;gap:12px;align-items:center">
+                <a href="/booking.html" class="btn-small" style="padding:8px 10px;background:linear-gradient(90deg,#06b6d4,#3b82f6);color:white;border-radius:8px;text-decoration:none">Booking</a>
+                <a href="/payment.html" class="btn-small" style="padding:8px 10px;border-radius:8px;text-decoration:none;border:1px solid #e6e9ee">Payment</a>
+                <a href="/feedback.html" class="btn-small" style="padding:8px 10px;border-radius:8px;text-decoration:none;border:1px solid #e6e9ee">Feedback</a>
+                <a href="/about.html" style="color:#6b7280;text-decoration:none">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+    <header>
+        <h1 id="vehicle-count">Available Vehicles for Rent</h1>
+        <div class="view-controls">
+            <span>View:</span>
+            <button id="grid-btn" class="active" title="Grid View"><i class="fas fa-grip"></i></button>
+            <button id="list-btn" title="List View"><i class="fas fa-list"></i></button>
+        </div>
+    </header>
+
+    <main>
+        <div id="vehicle-grid" class="vehicle-grid">
+        </div>
+    </main>
+</div>
+
+<!-- Vehicle submission form for users -->
+<div style="max-width:800px;margin:28px auto;background:#fff;padding:18px;border-radius:10px;border:1px solid #e6e9ee">
+    <h3>Submit your vehicle for listing</h3>
+    <form id="submitVehicleForm" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+        <input name="brandName" placeholder="Brand" required />
+        <input name="modelName" placeholder="Model" required />
+        <input name="vehicleType" placeholder="Type (Car/SUV)" required />
+        <input name="rentalPricePerDay" placeholder="Price per day" type="number" required />
+        <input name="imageUrl" placeholder="Image URL (optional)" />
+        <div style="grid-column:1/-1;text-align:right">
+            <button id="submitVehicleBtn" type="button" style="background:#0ea5e9;color:#fff;padding:10px 16px;border-radius:8px;border:none;cursor:pointer">Submit Vehicle</button>
+        </div>
+    </form>
+</div>
+
+<footer style="text-align:center;padding:18px 0;color:#6b7280">© RentEasy 2025</footer>
+
+<script>
+    // --- DOM Element References ---
+    const vehicleGrid = document.getElementById('vehicle-grid');
+    const gridBtn = document.getElementById('grid-btn');
+    const listBtn = document.getElementById('list-btn');
+    const vehicleCountEl = document.getElementById('vehicle-count');
+
+    // Fetch vehicles from API
+    async function fetchVehicles() {
+        try {
+            const res = await fetch('/api/vehicles?status=APPROVED');
+            if (!res.ok) throw new Error('Failed to fetch vehicles');
+            const data = await res.json();
+            renderVehicles(data);
+        } catch (err) {
+            console.error(err);
+            vehicleGrid.innerHTML = '<p style="color:red">Unable to load vehicles.</p>';
+        }
+    }
+
+    function createCard(vehicle) {
+        const card = document.createElement('div');
+        card.className = 'vehicle-card';
+
+        const statusClass = vehicle.available ? 'available' : 'rented';
+
+        const title = `${vehicle.brandName ?? ''} ${vehicle.modelName ?? ''}`;
+        const price = (vehicle.rentalPricePerDay ?? 0).toLocaleString();
+
+        card.innerHTML = `
+            <img src="${vehicle.imageUrl ?? 'https://via.placeholder.com/800x400?text=No+Image'}" alt="${title}">
+            <div class="card-content">
+                <div class="card-header">
+                    <h3>${title}</h3>
+                    <span class="status ${statusClass}">${vehicle.available ? 'Available' : 'Rented'}</span>
+                </div>
+                <p class="vehicle-type">${vehicle.vehicleType ?? ''}</p>
+                <div class="vehicle-specs">
+                    <div class="spec-item"><i class="fas fa-dollar-sign"></i><span>${price} per day</span></div>
+                    <div class="spec-item"><i class="fas fa-user"></i><span>ID: ${vehicle.id ?? ''}</span></div>
+                </div>
+                <p class="description">${vehicle.description ?? ''}</p>
+                <div style="display:flex;gap:8px;margin-top:auto">
+                    <a href="/booking.html?vehicleId=${vehicle.id}" class="btn-details">View & Book</a>
+                    <button type="button" class="btn-details" style="background:#16a34a" onclick="openBookingPrompt(${vehicle.id})">Quick Book</button>
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderVehicles(list) {
+        vehicleGrid.innerHTML = '';
+        vehicleCountEl.textContent = `Showing ${list.length} vehicles`;
+        list.forEach(v => vehicleGrid.appendChild(createCard(v)));
+    }
+
+    // Booking flow: open a prompt to collect start/end dates and POST a booking
+    async function openBookingPrompt(vehicleId) {
+        const username = localStorage.getItem('username');
+        if (!username) { alert('Please login to book a vehicle.'); return; }
+
+        const start = prompt('Enter start date (YYYY-MM-DD):');
+        if (!start) return;
+        const end = prompt('Enter end date (YYYY-MM-DD):');
+        if (!end) return;
+
+        try {
+            // Fetch user by username to get user id (API must expose this endpoint)
+            const userRes = await fetch(`/api/users/${encodeURIComponent(username)}`);
+            if (!userRes.ok) throw new Error('Could not fetch user');
+            const user = await userRes.json();
+
+            // Fetch vehicle object to include in booking (optional;
+            // booking controller expects either vehicle id or vehicle object depending on backend)
+            const vehicleRes = await fetch(`/api/vehicles/${vehicleId}`);
+            if (!vehicleRes.ok) throw new Error('Could not fetch vehicle');
+            const vehicle = await vehicleRes.json();
+
+            const payload = {
+                user: { id: user.id },
+                vehicle: { id: vehicle.id },
+                startDate: start,
+                endDate: end
+            };
+
+            const res = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error('Booking failed');
+            alert('Booking successful!');
+        } catch (err) {
+            console.error(err);
+            alert('Booking failed: ' + (err.message || 'Unknown error'));
+        }
+    }
+
+    // --- Event Listeners ---
+
+    // Grid view button
+    gridBtn.addEventListener('click', () => {
+        vehicleGrid.classList.remove('list-view');
+        gridBtn.classList.add('active');
+        listBtn.classList.remove('active');
+    });
+
+    // List view button
+    listBtn.addEventListener('click', () => {
+        vehicleGrid.classList.add('list-view');
+        listBtn.classList.add('active');
+        gridBtn.classList.remove('active');
+    });
+
+    // Initial render on page load
+    document.addEventListener('DOMContentLoaded', fetchVehicles);
+
+    // Back button behaviour
+    document.getElementById('backBtn').addEventListener('click', ()=>{
+        if(document.referrer) window.history.back(); else window.location.href='/';
+    });
+
+    // Vehicle submission handler
+    document.getElementById('submitVehicleBtn').addEventListener('click', async () => {
+        const username = localStorage.getItem('username');
+        if (!username) { alert('Please login to submit a vehicle.'); window.location.href='/login.html'; return; }
+        const form = document.getElementById('submitVehicleForm');
+        const formData = new FormData(form);
+        const payload = {
+            brandName: formData.get('brandName'),
+            modelName: formData.get('modelName'),
+            vehicleType: formData.get('vehicleType'),
+            rentalPricePerDay: parseFloat(formData.get('rentalPricePerDay')) || 0,
+            imageUrl: formData.get('imageUrl') || null,
+            status: 'PENDING'
+        };
+        try {
+            const res = await fetch('/api/vehicles/submit', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+            if(!res.ok) throw new Error('Submit failed');
+            alert('Vehicle submitted for approval');
+            form.reset();
+        } catch (err) {
+            console.error(err);
+            alert('Submit failed: ' + (err.message||'Unknown'));
+        }
+    });
+
+</script>
+</body>
+</html>

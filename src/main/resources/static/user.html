@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details - JourneyMATE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- General & Reused Styles --- */
+        :root {
+            --primary-gradient: linear-gradient(100deg, #5A55D1, #8B89E8);
+            --primary-color: #5A55D1;
+            --danger-color: #FF6B6B;
+            --danger-hover-color: #e04f4f;
+            --bg-color: #f4f7fa;
+            --text-dark: #333;
+            --text-light: #666;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        /* --- Navbar (Consistent with your site) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .navbar nav a.active, .navbar nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* --- Main Content --- */
+        main {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .account-hero {
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .account-hero h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .account-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Form Styling */
+        #account-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1; /* Span across both columns */
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-family);
+            color: var(--text-dark);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(90, 85, 209, 0.2);
+        }
+
+        /* Button Styling */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(90, 85, 209, 0.3);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Danger Zone Card */
+        .danger-zone {
+            border: 1px solid var(--danger-color);
+        }
+
+        .danger-zone h2 {
+            color: var(--danger-color);
+        }
+
+        .danger-zone p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            #account-form {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <a href="#" class="logo">JourneyMATE</a>
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Vehicles</a>
+        <a href="#" class="active">Account Details</a>
+    </nav>
+    <div class="user-actions">
+        <span>sasindu</span>
+        <a href="#" style="background-color: var(--danger-color); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none;">Logout</a>
+    </div>
+</header>
+
+<main>
+    <section class="account-hero">
+        <h1>My Account</h1>
+        <p>Manage your profile information and account settings.</p>
+    </section>
+
+    <div class="card">
+        <h2>Profile Information</h2>
+        <form id="account-form">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group full-width">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card danger-zone">
+        <h2>Danger Zone</h2>
+        <p>Deleting your account is a permanent action and cannot be undone. All your data, including booking history, will be permanently removed.</p>
+        <button id="delete-account-btn" class="btn btn-danger">Delete My Account</button>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. Get references to HTML elements ---
+        const accountForm = document.getElementById('account-form');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        const emailInput = document.getElementById('email');
+        const deleteButton = document.getElementById('delete-account-btn');
+
+        // --- 2. Mock user data (in a real app, this would come from an API) ---
+        const currentUser = {
+            firstName: 'Sasindu',
+            lastName: 'Nimsara',
+            email: 'sasindu@example.com'
+        };
+
+        // --- 3. Function to populate the form with user data ---
+        function loadUserDetails() {
+            firstNameInput.value = currentUser.firstName;
+            lastNameInput.value = currentUser.lastName;
+            emailInput.value = currentUser.email;
+        }
+
+        // --- 4. Handle form submission to update details ---
+        accountForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent the form from reloading the page
+
+            // Get the updated values
+            const updatedFirstName = firstNameInput.value;
+            const updatedLastName = lastNameInput.value;
+            const updatedEmail = emailInput.value;
+
+            // Here, you would typically send this data to your server/API
+            console.log('Saving updated data:', {
+                firstName: updatedFirstName,
+                lastName: updatedLastName,
+                email: updatedEmail
+            });
+
+            // Simulate a successful save
+            alert('Account details updated successfully!');
+        });
+
+        // --- 5. Handle the "Delete Account" button click ---
+        deleteButton.addEventListener('click', () => {
+            // Show a confirmation dialog to prevent accidental deletion
+            const isConfirmed = confirm('Are you absolutely sure you want to delete your account? This action is permanent and cannot be undone.');
+
+            if (isConfirmed) {
+                // If the user confirms, proceed with deletion
+                console.log('User confirmed account deletion. Sending request to server...');
+
+                // Simulate a successful deletion
+                alert('Your account has been successfully deleted.');
+
+                // In a real app, you would redirect the user to the homepage or login page
+                // window.location.href = '/logout';
+            } else {
+                // If the user cancels, do nothing
+                console.log('User cancelled account deletion.');
+            }
+        });
+
+        // --- Initial Load ---
+        loadUserDetails();
+    });
+</script>
+
+</body>
+</html>

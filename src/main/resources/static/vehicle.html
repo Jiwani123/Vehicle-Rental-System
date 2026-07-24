@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyMATE - Available Vehicles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            background: var(--gray-100);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+
+        .btn-secondary {
+            background: var(--gray-600);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-700);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Search and Filters */
+        .search-filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Vehicle Grid */
+        .vehicles-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .vehicle-count {
+            color: var(--gray-500);
+            font-size: 1rem;
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .vehicle-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .vehicle-content {
+            padding: 1.5rem;
+        }
+
+        .vehicle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .vehicle-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .vehicle-type {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .availability-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .unavailable {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .vehicle-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .vehicle-price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .price-period {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .vehicle-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-book {
+            flex: 1;
+        }
+
+        .btn-details {
+            flex: 0 0 auto;
+            padding: 0.75rem;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .search-section {
+                flex-direction: column;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vehicles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="/user-home.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="logo-text">JourneyMATE</span>
+            </a>
+
+            <nav class="nav">
+                <a href="/user-home.html" class="nav-link">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/user-bookings.html" class="nav-link">
+                    <i class="fas fa-calendar-check"></i> Bookings
+                </a>
+                <a href="/vehicle.html" class="nav-link active">
+                    <i class="fas fa-car-side"></i> Vehicles
+                </a>
+                <a href="/feedback.html" class="nav-link">
+                    <i class="fas fa-comment"></i> Feedback
+                </a>
+                <a href="/user-inquiries.html" class="nav-link">
+                    <i class="fas fa-life-ring"></i> Inquiries
+                </a>
+                <a href="/account-details.html" class="nav-link">
+                    <i class="fas fa-user-cog"></i> Account
+                </a>
+            </nav>
+
+            <button class="btn btn-outline" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Page Header -->
+        <section class="page-header">
+            <h1 class="page-title">Available Vehicles</h1>
+            <p class="page-subtitle">Choose from our premium collection of vehicles for your next journey</p>
+        </section>
+
+        <!-- Search and Filters -->
+        <section class="search-filter-section">
+            <div class="search-section">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search vehicles by brand, model, or type...">
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="btn btn-outline" onclick="clearFilters()">
+                    <i class="fas fa-refresh"></i> Clear
+                </button>
+            </div>
+
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label" for="vehicleType">Vehicle Type</label>
+                    <select id="vehicleType" class="filter-select">
+                        <option value="all">All Types</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Coupe">Coupe</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Van">Van</option>
+                        <option value="Truck">Truck</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="brandFilter">Brand</label>
+                    <input type="text" id="brandFilter" class="search-input" placeholder="e.g., Toyota, BMW" style="margin:0;">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="availability">Availability</label>
+                    <select id="availability" class="filter-select">
+                        <option value="all">All</option>
+                        <option value="available">Available</option>
+                        <option value="not-available">Not Available</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="priceRange">Price Range</label>
+                    <select id="priceRange" class="filter-select">
+                        <option value="all">All Prices</option>
+                        <option value="0-50">Under $50/day</option>
+                        <option value="50-100">$50-$100/day</option>
+                        <option value="100-200">$100-$200/day</option>
+                        <option value="200+">$200+/day</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vehicles Section -->
+        <section class="vehicles-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Fleet</h2>
+                <span class="vehicle-count" id="vehicleCount">Loading vehicles...</span>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Loading vehicles...</p>
+            </div>
+
+            <!-- Vehicles Grid -->
+            <div id="vehicleGrid" class="vehicles-grid" style="display: none;">
+                <!-- Vehicles will be populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let vehicles = [];
+        let currentUser = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            const username = localStorage.getItem('username');
+            if (!username) {
+                window.location.href = '/index.html';
+                return;
+            }
+            
+            currentUser = username;
+            
+            // Update username display if element exists
+            const usernameElement = document.getElementById('username');
+            if (usernameElement) {
+                usernameElement.textContent = username;
+            }
+            
+            // Load vehicles
+            loadVehicles();
+            
+            // Setup filter event listeners
+            setupFilters();
+        });
+
+        // Load vehicles from API
+        async function loadVehicles() {
+            const loadingState = document.getElementById('loadingState');
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            
+            try {
+                loadingState.style.display = 'block';
+                vehicleGrid.style.display = 'none';
+                
+                const response = await fetch('/api/vehicles');
+                console.log('API Response Status:', response.status);
+                
+                if (response.ok) {
+                    vehicles = await response.json();
+                    console.log('Vehicles loaded:', vehicles.length);
+                    displayVehicles(vehicles);
+                } else {
+                    throw new Error(`Failed to load vehicles. Status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+                loadingState.innerHTML = `
+                    <i class="fas fa-exclamation-triangle" style="color: var(--error);"></i>
+                    <p>Failed to load vehicles. Please try again later.</p>
+                    <p style="font-size: 0.875rem; color: var(--gray-500); margin-top: 0.5rem;">${error.message}</p>
+                `;
+                loadingState.style.display = 'block';
+                vehicleGrid.style.display = 'none';
+            }
+        }
+
+        // Display vehicles in grid
+        function displayVehicles(vehicleList) {
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            const loadingState = document.getElementById('loadingState');
+            const vehicleCount = document.getElementById('vehicleCount');
+            
+            if (vehicleList.length === 0) {
+                vehicleGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--gray-500);">
+                        <i class="fas fa-car" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No vehicles found matching your criteria.</p>
+                    </div>
+                `;
+            } else {
+                vehicleGrid.innerHTML = vehicleList.map(vehicle => `
+                    <div class="vehicle-card" data-type="${vehicle.vehicleType || ''}" data-brand="${vehicle.brandName || ''}" data-availability="${vehicle.available ? 'available' : 'not-available'}" data-price="${vehicle.rentalPricePerDay || 0}">
+                        <div class="vehicle-image">
+                            ${vehicle.imageUrl ? `<img src="${vehicle.imageUrl}" alt="${vehicle.brandName} ${vehicle.modelName}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="fas fa-car"></i>'}
+                        </div>
+                        <div class="vehicle-content">
+                            <div class="vehicle-header">
+                                <div>
+                                    <h3 class="vehicle-name">${vehicle.brandName || 'Unknown'} ${vehicle.modelName || ''}</h3>
+                                    <p class="vehicle-type">${vehicle.vehicleType || 'Vehicle'}</p>
+                                </div>
+                                <span class="availability-badge ${vehicle.available ? 'available' : 'unavailable'}">
+                                    ${vehicle.available ? 'Available' : 'Unavailable'}
+                                </span>
+                            </div>
+                            
+                            <div class="vehicle-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Automatic Transmission</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>5 Passengers</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Fuel Efficient</span>
+                                </div>
+                            </div>
+                            
+                            <div class="vehicle-price">
+                                <span class="price-amount">$${vehicle.rentalPricePerDay ? vehicle.rentalPricePerDay.toFixed(2) : '0.00'}</span>
+                                <span class="price-period">per day</span>
+                            </div>
+                            
+                            <div class="vehicle-actions">
+                                ${vehicle.available 
+                                    ? `<button class="btn btn-primary btn-book" onclick="bookVehicle(${vehicle.id})">
+                                         <i class="fas fa-calendar-plus"></i> Book Now
+                                       </button>`
+                                    : `<button class="btn btn-secondary" disabled>
+                                         <i class="fas fa-ban"></i> Unavailable
+                                       </button>`
+                                }
+                                <button class="btn btn-outline btn-details" onclick="viewDetails(${vehicle.id})" title="View Details">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Update count and show grid
+            vehicleCount.textContent = `${vehicleList.length} vehicles found`;
+            loadingState.style.display = 'none';
+            vehicleGrid.style.display = 'grid';
+        }
+
+        // Setup filter event listeners
+        function setupFilters() {
+            const vehicleTypeFilter = document.getElementById('vehicleType');
+            const brandFilter = document.getElementById('brandFilter');
+            const availabilityFilter = document.getElementById('availability');
+            const priceRangeFilter = document.getElementById('priceRange');
+            const searchInput = document.getElementById('searchInput');
+
+            // Only add event listeners if elements exist
+            if (vehicleTypeFilter) {
+                vehicleTypeFilter.addEventListener('change', applyFilters);
+            }
+            if (availabilityFilter) {
+                availabilityFilter.addEventListener('change', applyFilters);
+            }
+            if (priceRangeFilter) {
+                priceRangeFilter.addEventListener('change', applyFilters);
+            }
+            if (brandFilter) {
+                brandFilter.addEventListener('input', debounce(applyFilters, 300));
+            }
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(applyFilters, 300));
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const selectedType = document.getElementById('vehicleType').value.toLowerCase();
+            const selectedBrand = document.getElementById('brandFilter').value.toLowerCase();
+            const selectedAvailability = document.getElementById('availability').value;
+            const selectedPriceRange = document.getElementById('priceRange').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            let filteredVehicles = vehicles.filter(vehicle => {
+                // Type filter
+                const matchesType = selectedType === 'all' || 
+                    (vehicle.vehicleType && vehicle.vehicleType.toLowerCase() === selectedType);
+
+                // Brand filter
+                const matchesBrand = selectedBrand === '' || 
+                    (vehicle.brandName && vehicle.brandName.toLowerCase().includes(selectedBrand));
+
+                // Availability filter
+                const matchesAvailability = selectedAvailability === 'all' || 
+                    (selectedAvailability === 'available' && vehicle.available) ||
+                    (selectedAvailability === 'not-available' && !vehicle.available);
+
+                // Price range filter
+                const matchesPrice = selectedPriceRange === 'all' || 
+                    checkPriceRange(vehicle.rentalPricePerDay, selectedPriceRange);
+
+                // Search filter
+                const matchesSearch = searchTerm === '' ||
+                    (vehicle.brandName && vehicle.brandName.toLowerCase().includes(searchTerm)) ||
+                    (vehicle.modelName && vehicle.modelName.toLowerCase().includes(searchTerm)) ||
+                    (vehicle.vehicleType && vehicle.vehicleType.toLowerCase().includes(searchTerm));
+
+                return matchesType && matchesBrand && matchesAvailability && matchesPrice && matchesSearch;
+            });
+
+            displayVehicles(filteredVehicles);
+        }
+
+        // Check price range
+        function checkPriceRange(price, range) {
+            if (!price) return range === '0-50';
+            
+            switch(range) {
+                case '0-50': return price < 50;
+                case '50-100': return price >= 50 && price < 100;
+                case '100-200': return price >= 100 && price < 200;
+                case '200+': return price >= 200;
+                default: return true;
+            }
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('vehicleType').value = 'all';
+            document.getElementById('brandFilter').value = '';
+            document.getElementById('availability').value = 'all';
+            document.getElementById('priceRange').value = 'all';
+            document.getElementById('searchInput').value = '';
+            displayVehicles(vehicles);
+        }
+
+        // Book vehicle
+        function bookVehicle(vehicleId) {
+            localStorage.setItem('selectedVehicleId', vehicleId);
+            window.location.href = '/booking.html';
+        }
+
+        // View vehicle details
+        function viewDetails(vehicleId) {
+            localStorage.setItem('selectedVehicleId', vehicleId);
+            window.location.href = '/vehicle-details.html';
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                fetch('/api/users/logout', { method: 'POST' })
+                    .then(() => {
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('role');
+                        window.location.href = '/index.html';
+                    })
+                    .catch(() => {
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('role');
+                        window.location.href = '/index.html';
+                    });
+            }
+        }
+
+        // Utility function for debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>
+
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiBase = '/api/vehicles';
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            const vehicleCountSpan = document.getElementById('vehicleCount');
+            const vehicleTypeFilter = document.getElementById('vehicleType');
+            const brandFilter = document.getElementById('brand');
+            const availabilityFilter = document.getElementById('availability');
+
+            // --- Mock API for demonstration (copied from your dashboard code) ---
+            let mockDb = [
+                {id: 1, brandName: 'Toyota', modelName: 'Camry', vehicleType: 'Sedan', available: true, rentalPricePerDay: 55.00},
+                {id: 2, brandName: 'Honda', modelName: 'CR-V', vehicleType: 'SUV', available: false, rentalPricePerDay: 70.00},
+                {id: 3, brandName: 'Ford', modelName: 'Mustang', vehicleType: 'Coupe', available: true, rentalPricePerDay: 95.50},
+                {id: 4, brandName: 'Toyota', modelName: 'Prius', vehicleType: 'Hatchback', available: true, rentalPricePerDay: 60.00},
+                {id: 5, brandName: 'BMW', modelName: 'X5', vehicleType: 'SUV', available: true, rentalPricePerDay: 120.00}
+            ];
+            let nextId = 6;
+
+            const mockFetch = (url, options = {}) => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({ ok: true, json: () => Promise.resolve(mockDb) });
+                    }, 300);
+                });
+            };
+            
+            async function safeFetch(url, options = {}) {
+                try {
+                    const res = await fetch(url, options);
+                    if (res.ok) return res;
+                    return res;
+                } catch (err) {
+                    console.warn('Real fetch failed, falling back to mock:', err.message);
+                    return mockFetch(url, options);
+                }
+            }
+            // --- End Mock API ---
+
+            // Simple function to get a placeholder image
+            function getVehicleImage(modelName) {
+                const images = {
+                    'camry': 'https://i.ibb.co/L9Fj9qL/prius-car.png', // Using prius for camry
+                    'cr-v': 'https://i.ibb.co/P44vX92/honda-fit.png', // Placeholder
+                    'mustang': 'https://i.ibb.co/Q86QW7x/mercedes-c.png', // Placeholder
+                    'prius': 'https://i.ibb.co/L9Fj9qL/prius-car.png',
+                    'x5': 'https://i.ibb.co/y4LpW7Q/bmw-x5.png'
+                };
+                return images[modelName.toLowerCase().replace(' ', '-')] || 'https://i.ibb.co/bF022G1/default-car.png'; // Default image
+            }
+
+            async function renderVehicles() {
+                const res = await safeFetch(apiBase);
+                const vehicles = await res.json();
+                vehicleGrid.innerHTML = ''; // Clear existing cards
+
+                if (vehicles.length === 0) {
+                    vehicleGrid.innerHTML = '<p>No vehicles available at the moment.</p>';
+                    return;
+                }
+
+                vehicles.forEach(v => {
+                    const card = document.createElement('div');
+                    card.className = 'vehicle-card';
+                    // Set data attributes for filtering
+                    card.dataset.type = v.vehicleType;
+                    card.dataset.brand = v.brandName;
+                    card.dataset.availability = v.available ? 'available' : 'not-available';
+
+                    const availabilityClass = v.available ? 'available' : 'not-available';
+                    const availabilityText = v.available ? 'Available' : 'Not Available';
+
+                    card.innerHTML = `
+                        <div class="image-container">
+                            <img src="${getVehicleImage(v.modelName)}" alt="${v.brandName} ${v.modelName}">
+                            <span class="availability-badge ${availabilityClass}">${availabilityText}</span>
+                        </div>
+                        <div class="details-content">
+                            <h3>${v.brandName} ${v.modelName}</h3>
+                            <p class="type-brand">${v.vehicleType} / ${v.brandName}</p>
+                            <div class="features">
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                                <span><i class="fas fa-chair"></i> 5 Seats</span>
+                                <span><i class="fas fa-cogs"></i> Auto</span>
+                            </div>
+                            <div class="price">
+                                <div>
+                                    <span class="amount">$${v.rentalPricePerDay.toFixed(2)}</span>
+                                    <span class="per-day">/ day</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                ${v.available
+                                    ? '<a href="#" class="btn btn-book">Book Now</a>'
+                                    : '<button class="btn btn-unavailable" disabled>Unavailable</button>'
+                                }
+                                <a href="#" class="btn btn-details">Details</a>
+                            </div>
+                        </div>
+                    `;
+                    vehicleGrid.appendChild(card);
+                });
+
+                applyFilters(); // Apply filters after rendering
+            }
+
+            function applyFilters() {
+                const selectedType = vehicleTypeFilter.value.toLowerCase();
+                const selectedBrand = brandFilter.value.toLowerCase();
+                const selectedAvailability = availabilityFilter.value;
+                let visibleVehiclesCount = 0;
+                
+                // Important: Select cards *after* they have been rendered
+                const vehicleCards = document.querySelectorAll('.vehicle-card');
+
+                vehicleCards.forEach(card => {
+                    const cardType = card.dataset.type.toLowerCase();
+                    const cardBrand = card.dataset.brand.toLowerCase();
+                    const cardAvailability = card.dataset.availability;
+
+                    const matchesType = selectedType === 'all' || cardType === selectedType;
+                    const matchesBrand = selectedBrand === '' || cardBrand.includes(selectedBrand);
+                    const matchesAvailability = selectedAvailability === 'all' || cardAvailability === selectedAvailability;
+
+                    if (matchesType && matchesBrand && matchesAvailability) {
+                        card.style.display = 'flex';
+                        visibleVehiclesCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                vehicleCountSpan.textContent = `${visibleVehiclesCount} vehicles found`;
+            }
+
+            // Attach event listeners
+            vehicleTypeFilter.addEventListener('change', applyFilters);
+            brandFilter.addEventListener('input', applyFilters);
+            availabilityFilter.addEventListener('change', applyFilters);
+
+            // Initial load
+            renderVehicles();
+        });
+    </script>
+</body>
+</html>

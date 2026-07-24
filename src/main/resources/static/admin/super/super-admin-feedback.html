@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyMATE - Feedback Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav {
+            padding: 2rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary-light);
+            color: var(--white);
+            border-right-color: var(--primary-dark);
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.error {
+            border-left-color: var(--error);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Feedback Cards */
+        .feedback-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .feedback-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feedback-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: between;
+            align-items: start;
+        }
+
+        .feedback-info {
+            flex: 1;
+        }
+
+        .feedback-subject {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .feedback-body {
+            padding: 1.5rem;
+        }
+
+        .feedback-message {
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-actions {
+            padding: 1rem 1.5rem;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            gap: 0.75rem;
+            justify-content: end;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-approve:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-reject {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        .btn-reject:hover {
+            background: #dc2626;
+        }
+
+        .btn-delete {
+            background: var(--gray-500);
+            color: var(--white);
+        }
+
+        .btn-delete:hover {
+            background: var(--gray-600);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-600);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray-400);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">JourneyMATE</div>
+            <div class="sidebar-subtitle">Super Admin Portal</div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a href="super-admin-dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="super-admin-users.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="super-admin-inquiries.html" class="nav-link">
+                    <i class="fas fa-question-circle"></i>
+                    Inquiries
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="super-admin-feedback.html" class="nav-link active">
+                    <i class="fas fa-comments"></i>
+                    Feedback Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="super-admin-reports.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    Reports
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="../../index.html" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Feedback Management</h1>
+            <p class="page-subtitle">View and respond to customer feedback</p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalCount">0</div>
+                <div class="stat-label">Total Feedback</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-value" id="repliedCount">0</div>
+                <div class="stat-label">Replied</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value" id="unrepliedCount">0</div>
+                <div class="stat-label">Awaiting Reply</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('all')">
+                <i class="fas fa-list"></i> All Feedback
+            </button>
+            <button class="tab" onclick="showTab('unreplied')">
+                <i class="fas fa-clock"></i> Awaiting Reply
+            </button>
+        </div>
+
+        <!-- Feedback List -->
+        <div id="feedbackContainer" class="feedback-grid">
+            <!-- Feedback items will be loaded here -->
+        </div>
+    </main>
+
+    <script>
+        let currentTab = 'all';
+        let allFeedbacks = [];
+        let currentReplyFeedbackId = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeedbacks();
+        });
+
+        async function loadFeedbacks() {
+            try {
+                const response = await fetch('/api/feedbacks/all');
+                if (response.ok) {
+                    allFeedbacks = await response.json();
+                    updateStatistics();
+                    displayFeedbacks();
+                } else {
+                    console.error('Failed to load feedbacks');
+                }
+            } catch (error) {
+                console.error('Error loading feedbacks:', error);
+            }
+        }
+
+        function updateStatistics() {
+            const total = allFeedbacks.length;
+            const replied = allFeedbacks.filter(f => f.adminReply && f.adminReply.trim() !== '').length;
+            const unreplied = total - replied;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('repliedCount').textContent = replied;
+            document.getElementById('unrepliedCount').textContent = unreplied;
+        }
+
+        function showTab(tab) {
+            currentTab = tab;
+
+            // Update tab styles
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            displayFeedbacks();
+        }
+
+        function displayFeedbacks() {
+            const container = document.getElementById('feedbackContainer');
+            let feedbacksToShow = allFeedbacks;
+
+            if (currentTab === 'unreplied') {
+                feedbacksToShow = allFeedbacks.filter(f => !f.adminReply || f.adminReply.trim() === '');
+            }
+
+            if (feedbacksToShow.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h3>No ${currentTab === 'unreplied' ? 'unreplied' : ''} feedback found</h3>
+                        <p>${currentTab === 'unreplied' ? 'All feedback has been replied to.' : 'No feedback submitted yet.'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = feedbacksToShow.map(feedback => `
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div class="feedback-info">
+                            <h3 class="feedback-subject">${feedback.subject}</h3>
+                            <div class="feedback-meta">
+                                <span><i class="fas fa-user"></i> ${feedback.userName || 'Anonymous'}</span>
+                                <span><i class="fas fa-calendar"></i> ${formatDate(feedback.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feedback-body">
+                        <p class="feedback-message">${feedback.message}</p>
+                        ${feedback.adminReply ? `
+                            <div style="margin-top: 1rem; padding: 0.75rem; background: var(--gray-100); border-radius: 6px; border-left: 3px solid var(--success);">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-700);">
+                                    <i class="fas fa-reply"></i> Admin Reply
+                                </div>
+                                <p style="margin-bottom: 0.5rem; color: var(--gray-800);">${feedback.adminReply}</p>
+                                <div style="font-size: 0.875rem; color: var(--gray-600);">
+                                    <strong>Replied by:</strong> ${feedback.repliedBy} on ${formatDate(feedback.repliedAt)}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn ${feedback.adminReply ? 'btn-secondary' : 'btn-approve'}" onclick="openReplyModal(${feedback.id})">
+                            <i class="fas fa-reply"></i> ${feedback.adminReply ? 'Update Reply' : 'Reply'}
+                        </button>
+                        <button class="btn btn-delete" onclick="deleteFeedback(${feedback.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function openReplyModal(id) {
+            currentReplyFeedbackId = id;
+            const feedback = allFeedbacks.find(f => f.id === id);
+            
+            if (!feedback) {
+                showErrorToast('Feedback not found');
+                return;
+            }
+            
+            // Create modal
+            const modalHtml = `
+                <div id="replyModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: white; border-radius: 8px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow-lg);">
+                        <h2 style="margin-bottom: 1rem; color: var(--gray-900);">
+                            <i class="fas fa-reply"></i> ${feedback.adminReply ? 'Update Reply' : 'Reply to Feedback'}
+                        </h2>
+                        
+                        <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--gray-100); border-radius: 6px;">
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-800);">${feedback.subject}</div>
+                            <div style="color: var(--gray-600); font-size: 0.875rem; margin-bottom: 0.5rem;">From: ${feedback.userName}</div>
+                            <div style="color: var(--gray-700);">${feedback.message}</div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--gray-700);">Your Reply *</label>
+                            <textarea id="replyText" style="width: 100%; min-height: 120px; padding: 0.75rem; border: 1px solid var(--gray-300); border-radius: 6px; font-family: inherit; resize: vertical;" placeholder="Enter your reply to the customer...">${feedback.adminReply || ''}</textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                            <button onclick="closeReplyModal()" style="padding: 0.5rem 1rem; border: 1px solid var(--gray-300); background: white; border-radius: 6px; cursor: pointer; font-weight: 500;">
+                                Cancel
+                            </button>
+                            <button onclick="submitReply()" style="padding: 0.5rem 1rem; border: none; background: var(--success); color: white; border-radius: 6px; cursor: pointer; font-weight: 500;">
+                                <i class="fas fa-paper-plane"></i> Send Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function closeReplyModal() {
+            const modal = document.getElementById('replyModal');
+            if (modal) {
+                modal.remove();
+            }
+            currentReplyFeedbackId = null;
+        }
+        
+        async function submitReply() {
+            if (!currentReplyFeedbackId) return;
+            
+            const replyText = document.getElementById('replyText').value.trim();
+            
+            if (!replyText) {
+                showErrorToast('Please enter a reply');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/feedbacks/${currentReplyFeedbackId}/reply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reply: replyText
+                    })
+                });
+                
+                if (response.ok) {
+                    showSuccessToast('Reply sent successfully!');
+                    closeReplyModal();
+                    loadFeedbacks();
+                } else {
+                    const errorData = await response.json();
+                    showErrorToast(errorData.message || 'Failed to send reply');
+                }
+            } catch (error) {
+                console.error('Error sending reply:', error);
+                showErrorToast('Error sending reply');
+            }
+        }
+
+        async function deleteFeedback(id) {
+            if (!confirm('Delete this feedback permanently? This action cannot be undone.')) return;
+
+            try {
+                const response = await fetch(`/api/feedbacks/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showSuccessToast('Feedback deleted successfully');
+                    loadFeedbacks();
+                } else {
+                    showErrorToast('Failed to delete feedback');
+                }
+            } catch (error) {
+                console.error('Error deleting feedback:', error);
+                showErrorToast('Error deleting feedback');
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        function showSuccessToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 10000;
+                background: var(--success); color: white; padding: 12px 20px;
+                border-radius: 6px; font-family: Arial, sans-serif;
+                box-shadow: var(--shadow-lg); transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function showErrorToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 10000;
+                background: var(--error); color: white; padding: 12px 20px;
+                border-radius: 6px; font-family: Arial, sans-serif;
+                box-shadow: var(--shadow-lg); transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            toast.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
